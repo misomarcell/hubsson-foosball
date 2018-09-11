@@ -92,18 +92,18 @@
             <th>Action</th>
         </tr></thead>
         <tbody>
-        <tr class="positive">
+        <tr v-bind:class="{positive: item.isPositive, negative: !item.isPositive}" v-for="item in history">
             <td>
                 <h4 class="ui blue image header">
                     <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg" class="ui mini rounded image">
                     <div class="content">
-                        Marci
-                        <div class="sub header">Comms
+                        {{ item.playerName }}
+                        <div class="sub header">{{ item.dept }}
                         </div>
                     </div>
                 </h4></td>
             <td>
-                Goal
+                {{ item.event }}
             </td>
             <td>
                 <a class="ui dropdown item">
@@ -138,57 +138,6 @@
                         </div>
                     </div>
                 </a>
-            </td>
-        </tr>
-        <tr class="positive">
-            <td>
-                <h4 class="ui blue image header">
-                    <img src="https://semantic-ui.com/images/avatar2/small/matthew.png" class="ui mini rounded image">
-                    <div class="content">
-                        Rudi
-                        <div class="sub header">Comms
-                        </div>
-                    </div>
-                </h4></td>
-            <td>
-                Goal
-            </td>
-            <td>
-
-            </td>
-        </tr>
-        <tr class="negative">
-            <td>
-                <h4 class="ui red image header">
-                    <img src="https://semantic-ui.com/images/avatar/small/joe.jpg" class="ui mini rounded image">
-                    <div class="content">
-                        Sanyi
-                        <div class="sub header">Puli
-                        </div>
-                    </div>
-                </h4></td>
-            <td>
-                Own Goal
-            </td>
-            <td>
-
-            </td>
-        </tr>
-        <tr class="positive">
-            <td>
-                <h4 class="ui red image header">
-                    <img src="https://semantic-ui.com/images/avatar2/small/mark.png" class="ui mini rounded image">
-                    <div class="content">
-                        Józsi
-                        <div class="sub header">Puli
-                        </div>
-                    </div>
-                </h4></td>
-            <td>
-                Goal
-            </td>
-            <td>
-
             </td>
         </tr>
         </tbody>

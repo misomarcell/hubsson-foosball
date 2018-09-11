@@ -15,7 +15,8 @@ window.onload = function (e) {
                 score: 0,
                 striker: null,
                 defense: null
-            }
+            },
+            history: []
         },
         methods: {
             score: function(player) {
@@ -26,6 +27,13 @@ window.onload = function (e) {
                 } else {
                     console.error("Cannot determine team for " + player);
                 }
+
+                this.history.push({
+                    playerName: player.name,
+                    dept: player.dept,
+                    event: "Goal",
+                    isPositive: player.name != "Sanyi"
+                });
             },
             setPlayer: function(team, position) {
                 if (team === "red" && position === "defense") {
