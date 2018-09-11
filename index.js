@@ -19,20 +19,25 @@ window.onload = function (e) {
             history: []
         },
         methods: {
-            score: function(player) {
+            score: function (player) {
+                var color = null;
                 if (player === this.red.striker || player === this.red.defense) {
                     this.red.score++;
+                    color = "red";
                 } else if (player === this.blue.striker || player === this.blue.defense) {
                     this.blue.score++;
+                    color = "blue";
                 } else {
                     console.error("Cannot determine team for " + player);
                 }
 
-                this.history.push({
+                this.history.unshift({
                     playerName: player.name,
                     dept: player.dept,
-                    event: "Goal",
-                    isPositive: player.name != "Sanyi"
+                    event: player.name !== "Sanyi" ? "Goal" : "Own Goal",
+                    isPositive: player.name !== "Sanyi",
+                    isRed: color === "red",
+                    timestamp: moment().format("HH:mm:ss")
                 });
             },
             setPlayer: function(team, position) {
