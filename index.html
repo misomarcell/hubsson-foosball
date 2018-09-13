@@ -1,147 +1,234 @@
 <html>
-    <head>
-        <title>Foos</title>
-        <meta charset="UTF-8">
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css" />
-    </head>
+<head>
+    <title>Foos</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css" />
+</head>
 
 <body>
-<div id="app">
-<div class="ui clearing segment" style="width: 600px; margin: auto; margin-top: 30px;">
-    <h3 class="ui right floated blue header">
-        Blue Team
-        <div class="sub header">{{ blue.striker == null ? '?' : blue.striker.name }} & {{ blue.defense == null ? '?' : blue.defense.name }}</div>
-    </h3>
-    <h3 class="ui left floated red header">
-        Red Team
-        <div class="sub header">{{ red.striker == null ? '?' : red.striker.name }} & {{ red.defense == null ? '?' : red.defense.name }}</div>
-    </h3>
-    <h3 class="ui center aligned header">
-        {{ red.score }} : {{ blue.score }}
-    </h3>
-</div>
+    <div id="app">
+        <div id="score-card" class="ui clearing segment" style="width: 600px; margin: auto; margin-top: 30px;">
+            <h3 class="ui right floated blue header">
+                Blue Team
+                <div class="sub header">{{ blue.striker == null ? '?' : blue.striker.name }} & {{ blue.defense == null
+                    ? '?' : blue.defense.name }}</div>
+            </h3>
+            <h3 class="ui left floated red header">
+                Red Team
+                <div class="sub header">{{ red.striker == null ? '?' : red.striker.name }} & {{ red.defense == null ?
+                    '?' : red.defense.name }}</div>
+            </h3>
+            <h3 class="ui center aligned header">
+                {{ red.score }} : {{ blue.score }}
+            </h3>
+        </div>
 
-<div class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
-    <div class="ui center aligned grid">
-        <div class="two column row">
-            <div class="column" v-if="blue.striker == null" v-on:click="setPlayer('blue', 'striker')">
-                <button class="ui active positive button">
-                    <i class="plus icon"></i>
-                    Enter
-                </button>
-            </div>
-            <div class="center aligned column" v-else>
-                <a class="ui right aligned large blue label" v-on:click="score(blue.striker)">
-                    <img class="ui right spaced avatar image" src="https://semantic-ui.com/images/avatar2/small/matthew.png">
-                    {{ blue.striker.name }}
-                </a>
-            </div>
-            <div class="column" v-if="blue.defense == null" v-on:click="setPlayer('blue', 'defense')">
-                <button class="ui active positive button">
-                    <i class="plus icon"></i>
-                    Enter
-                </button>
-            </div>
-            <div class="center aligned column" v-else>
-                <a class="ui right aligned large blue label" v-on:click="score(blue.defense)">
-                    <img class="ui right spaced avatar image" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-                    {{ blue.defense.name }}
-                </a>
-            </div>
-        </div>
-        <div class="one column row">
-            <div class="column">
-                <img src="table.jpg"/>
-            </div>
-        </div>
-        <div class="two column row" >
-            <div class="column" v-if="red.striker == null" v-on:click="setPlayer('red', 'striker')">
-                <button class="ui active positive button">
-                    <i class="plus icon"></i>
-                    Enter
-                </button>
-            </div>
-            <div class="center aligned column" v-else>
-                <a class="ui right aligned large red label" v-on:click="score(red.striker)">
-                    <img class="ui right spaced avatar image" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-                    {{ red.striker.name }}
-                </a>
-            </div>
-            <div class="column" v-if="red.defense == null" v-on:click="setPlayer('red', 'defense')">
-                <button class="ui active positive button">
-                    <i class="plus icon"></i>
-                    Enter
-                </button>
-            </div>
-            <div class="center aligned column" v-else>
-                <a class="ui right aligned large red label" v-on:click="score(red.defense)">
-                    <img class="ui right spaced avatar image" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-                    {{ red.defense.name }}
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
-    <table class="ui very basic celled table">
-        <thead>
-        <tr><th>Player</th>
-            <th>Event</th>
-            <th>Action</th>
-        </tr></thead>
-        <tbody>
-        <tr v-bind:class="{positive: item.isPositive, negative: !item.isPositive}" v-for="item in history">
-            <td>
-                <h4 class="ui image header" v-bind:class="{red: item.isRed, blue: !item.isRed}">
-                    <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg" class="ui mini rounded image">
-                    <div class="content">
-                        {{ item.playerName }}
-                        <div class="sub header">{{ item.dept }}
-                        </div>
-                    </div>
-                </h4></td>
-            <td>
-                {{ item.event }}
-                <br/>
-                <small>{{ item.timestamp }}</small>
-            </td>
-            <td>
-                <a class="ui dropdown item">
-                    Select action
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <div class="item">
-                            <i class="hand paper icon"></i>
-                            Own this goal
-                        </div>
-                        <div class="item" v-on:click="removeHistoryItem(item)">
-                            <i class="trash icon"></i>
-                            Remove
-                        </div>
-                        <div class="item">
-                            <i class="dropdown icon"></i>
-                            <span class="text">Assign to...</span>
-                            <div class="menu">
-                                <div class="item" v-for="player in players">
-                                    <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/matthew.png">
-                                    {{ player.fullName }}
+        <div id="players-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
+            <div class="ui two column grid">
+                <div class="row">
+                    <div class="column">
+                        <div class="ui compact fluid menu">
+                            <div class="ui simple dropdown fluid item">
+                                <i class="plus icon"></i>
+                                Enter Game
+                                <div class="menu">
+                                    <div class="item" v-if="red.striker == null" v-on:click="setPlayer('red', 'striker')">Striker</div>
+                                    <div class="item" v-if="red.defense == null" v-on:click="setPlayer('red', 'defense')">Defense</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-</div>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.js"></script>
-<script src="https://momentjs.com/downloads/moment.min.js"></script>
-<script src="./index.js"></script>
+                    <div class="right aligned column">
+                        <div class="ui compact fluid menu">
+                            <div class="ui simple dropdown fluid item">
+                                <i class="plus icon"></i>
+                                Enter Game
+                                <div class="menu">
+                                    <div class="item" v-if="blue.striker == null" v-on:click="setPlayer('blue', 'striker')">Striker</div>
+                                    <div class="item" v-if="blue.defense == null" v-on:click="setPlayer('blue', 'defense')">Defense</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <a v-if="red.defense != null" class="ui large red image fluid label" v-on:click="score(red.striker)">
+                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ red.defense.name }}
+                            <div class="detail" style="float:right">
+                                31
+                                <i class="arrow down icon"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a v-if="red.striker != null" class="ui large blue image fluid label" v-on:click="score(blue.defense)">
+                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ red.striker.name }}
+                            <div class="detail" style="float:right">
+                                22
+                                <i class="arrow up icon"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <a v-if="blue.defense != null" class="ui large red image fluid label" v-on:click="score(red.defense)">
+                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ blue.defense.name }}
+                            <div class="detail" style="float:right">
+                                31
+                                <i class="arrow down icon"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a v-if="blue.striker != null" class="ui large blue image fluid label" v-on:click="score(blue.striker)">
+                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ blue.striker.name }}
+                            <div class="detail" style="float:right">
+                                22
+                                <i class="arrow up icon"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
+            <div class="ui centered three column grid">
+
+                <div class="center aligned column">
+                    a
+                </div>
+
+                <div class="centered column">
+                    <div class="row" v-if="blue.striker == null" v-on:click="setPlayer('blue', 'striker')">
+                        <button class="ui active center aligned red button">
+                            <i class="plus icon"></i>
+                            Enter game
+                        </button>
+                    </div>
+                    <div class="row" v-else>
+                        <a class="ui right aligned large blue label" v-on:click="score(blue.striker)">
+                            <img class="ui right spaced avatar image" src="https://semantic-ui.com/images/avatar2/small/matthew.png">
+                            {{ blue.striker.name }}
+                        </a>
+                    </div>
+                    <div class="row" v-if="blue.defense == null" v-on:click="setPlayer('blue', 'defense')">
+                        <button class="ui active red fluid button">
+                            <i class="plus icon"></i>
+                            Enter game
+                        </button>
+                    </div>
+                    <div class="row" v-else>
+                        <a class="ui right aligned large blue label" v-on:click="score(blue.defense)">
+                            <img class="ui right spaced avatar image" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ blue.defense.name }}
+                        </a>
+                    </div>
+
+                    <div class="row" v-if="red.striker == null" v-on:click="setPlayer('red', 'striker')">
+                        <button class="ui active center aligned blue button">
+                            <i class="plus icon"></i>
+                            Enter game
+                        </button>
+                    </div>
+                    <div class="row" v-else>
+                        <a class="ui right aligned large red label" v-on:click="score(red.striker)">
+                            <img class="ui right spaced avatar image" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ red.striker.name }}
+                        </a>
+                    </div>
+                    <div class="row" v-if="red.defense == null" v-on:click="setPlayer('red', 'defense')">
+                        <button class="ui active left floated blue button">
+                            <i class="plus icon"></i>
+                            Enter game
+                        </button>
+                    </div>
+                    <div class="row" v-else>
+                        <a class="ui right aligned large red label" v-on:click="score(red.defense)">
+                            <img class="ui right spaced avatar image" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ red.defense.name }}
+                        </a>
+                    </div>
+                </div>
+                <div class="center aligned column">
+                    b
+                </div>
+            </div>
+        </div> -->
+
+        <div id="events-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
+            <table class="ui very basic celled table">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Event</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-bind:class="{positive: item.isPositive, negative: !item.isPositive}" v-for="item in history">
+                        <td>
+                            <h4 class="ui image header" v-bind:class="{red: item.isRed, blue: !item.isRed}">
+                                <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg" class="ui mini rounded image">
+                                <div class="content">
+                                    {{ item.playerName }}
+                                    <div class="sub header">{{ item.dept }}
+                                    </div>
+                                </div>
+                            </h4>
+                        </td>
+                        <td>
+                            {{ item.event }}
+                            <br />
+                            <small>{{ item.timestamp }}</small>
+                        </td>
+                        <td>
+                            <a class="ui dropdown item">
+                                Select action
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item">
+                                        <i class="hand paper icon"></i>
+                                        Own this goal
+                                    </div>
+                                    <div class="item" v-on:click="removeHistoryItem(item)">
+                                        <i class="trash icon"></i>
+                                        Remove
+                                    </div>
+                                    <div class="item">
+                                        <i class="dropdown icon"></i>
+                                        <span class="text">Assign to...</span>
+                                        <div class="menu">
+                                            <div class="item" v-for="player in players">
+                                                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/matthew.png">
+                                                {{ player.fullName }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="https://unpkg.com/semantic-ui-vue/dist/umd/semantic-ui-vue.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="./index.js"></script>
 </body>
+
 </html>

@@ -1,7 +1,3 @@
-$('.dropdown').dropdown({
-    transition: 'drop'
-});
-
 window.onload = function (e) {
     var app = new Vue({
         el: "#app",
@@ -44,7 +40,7 @@ window.onload = function (e) {
                 this.history.unshift({
                     playerName: player.name,
                     dept: player.dept,
-                    event: player.name !== "Sanyi" ? "Goal" : "Own Goal",
+                    event: player.name !== "Sanyi" ? "Goal • 2:1" : "Own Goal",
                     isPositive: player.name !== "Sanyi",
                     isRed: color === "red",
                     timestamp: moment().format("HH:mm:ss")
@@ -62,6 +58,7 @@ window.onload = function (e) {
                 } else {
                     console.error("Invalid team and/or position: [" + team + "], [" + position + "]");
                 }
+
             },
             removeHistoryItem: function (item) {
                 var index = this.history.indexOf(item);
