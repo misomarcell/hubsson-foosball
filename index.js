@@ -1,5 +1,7 @@
 window.onload = function (e) {
+ 
     var app = new Vue({
+
         el: "#app",
         data: {
             red: {
@@ -40,7 +42,7 @@ window.onload = function (e) {
                 this.history.unshift({
                     playerName: player.name,
                     dept: player.dept,
-                    event: player.name !== "Sanyi" ? "Goal • 2:1" : "Own Goal",
+                    event: player.name !== "Sanyi" ? `Goal •  ${this.red.score} : ${this.blue.score}` : `Own Goal •  ${this.red.score} : ${this.blue.score}`,
                     isPositive: player.name !== "Sanyi",
                     isRed: color === "red",
                     timestamp: moment().format("HH:mm:ss")

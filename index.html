@@ -27,11 +27,11 @@
 
         <div id="players-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
             <div class="ui two column grid">
-                <div class="row">
+                <div v-if="blue.striker == null || blue.defense == null || red.striker == null || red.defense == null" class="row">
                     <div class="column">
-                        <div class="ui compact fluid menu">
+                        <div v-if="red.striker == null || red.defense == null" class="ui compact fluid menu">
                             <div class="ui simple dropdown fluid item">
-                                <i class="plus icon"></i>
+                                <i class="red plus icon"></i>
                                 Enter Game
                                 <div class="menu">
                                     <div class="item" v-if="red.striker == null" v-on:click="setPlayer('red', 'striker')">Striker</div>
@@ -41,9 +41,9 @@
                         </div>
                     </div>
                     <div class="right aligned column">
-                        <div class="ui compact fluid menu">
-                            <div class="ui simple dropdown fluid item">
-                                <i class="plus icon"></i>
+                        <div v-if="blue.striker == null || blue.defense == null" class="ui compact fluid menu">
+                            <div class="ui simple dropdown fluid blue item">
+                                <i class="blue plus icon"></i>
                                 Enter Game
                                 <div class="menu">
                                     <div class="item" v-if="blue.striker == null" v-on:click="setPlayer('blue', 'striker')">Striker</div>
@@ -56,9 +56,9 @@
 
                 <div class="row">
                     <div class="column">
-                        <a v-if="red.defense != null" class="ui large red image fluid label" v-on:click="score(red.striker)">
+                        <a v-if="red.striker != null" class="ui large red image fluid label" v-on:click="score(red.striker)">
                             <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-                            {{ red.defense.name }}
+                            {{ red.striker.name }}
                             <div class="detail" style="float:right">
                                 31
                                 <i class="arrow down icon"></i>
@@ -66,9 +66,9 @@
                         </a>
                     </div>
                     <div class="column">
-                        <a v-if="red.striker != null" class="ui large blue image fluid label" v-on:click="score(blue.defense)">
+                        <a v-if="blue.defense != null" class="ui large blue image fluid label" v-on:click="score(blue.defense)">
                             <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-                            {{ red.striker.name }}
+                            {{ blue.defense.name }}
                             <div class="detail" style="float:right">
                                 22
                                 <i class="arrow up icon"></i>
@@ -79,9 +79,9 @@
 
                 <div class="row">
                     <div class="column">
-                        <a v-if="blue.defense != null" class="ui large red image fluid label" v-on:click="score(red.defense)">
+                        <a v-if="red.defense != null" class="ui large red image fluid label" v-on:click="score(red.defense)">
                             <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-                            {{ blue.defense.name }}
+                            {{ red.defense.name }}
                             <div class="detail" style="float:right">
                                 31
                                 <i class="arrow down icon"></i>
@@ -167,6 +167,27 @@
         </div> -->
 
         <div id="events-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
+            <div class="ui padded grid">
+                <div class="eight wide column">
+                    <button class="ui positive fluid button">
+                        <i class="futbol outline icon"></i>
+                        Goal
+                    </button>
+                </div>
+                <div class="four wide padded column">
+                    <button class="ui fluid button">
+                        Self Goal
+                    </button>
+                </div>
+                <div class="four wide right floated column">
+                    <button class="ui fluid button">
+                        End Game
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="events-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
             <table class="ui very basic celled table">
                 <thead>
                     <tr>
@@ -193,7 +214,7 @@
                             <small>{{ item.timestamp }}</small>
                         </td>
                         <td>
-                            <a class="ui dropdown item">
+                            <!--<a class="ui dropdown action-menu">
                                 Select action
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
@@ -216,7 +237,17 @@
                                         </div>
                                     </div>
                                 </div>
-                            </a>
+                            </a>-->
+
+                            <div class="ui dropdown action-menu">
+                                Select action...
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item">Choice 1</div>
+                                    <div class="item">Disabled</div>
+                                    <div class="item">Choice 3</div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -226,7 +257,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
-    <script src="https://unpkg.com/semantic-ui-vue/dist/umd/semantic-ui-vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="./index.js"></script>
 </body>
