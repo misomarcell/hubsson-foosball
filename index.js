@@ -1,7 +1,5 @@
 window.onload = function (e) {
- 
     var app = new Vue({
-
         el: "#app",
         data: {
             red: {
