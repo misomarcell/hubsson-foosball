@@ -1,174 +1,202 @@
 <html>
-    <head>
-        <title>Foos</title>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css" />
-    </head>
+<head>
+    <title>Foos</title>
+    <meta charset="UTF-8">
 
-    <body>
-        <div class="ui clearing segment" style="width: 600px; margin: auto; margin-top: 30px;">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css" />
+</head>
+
+<body>
+    <div id="app">
+        <div id="score-card" class="ui clearing segment" style="width: 600px; margin: auto; margin-top: 30px;">
             <h3 class="ui right floated blue header">
                 Blue Team
-                <div class="sub header">Józsi & Sanyi</div>
+                <div class="sub header">{{ blue.striker == null ? '?' : blue.striker.name }} & {{ blue.defense == null
+                    ? '?' : blue.defense.name }}</div>
             </h3>
             <h3 class="ui left floated red header">
                 Red Team
-                <div class="sub header">Rudi & Marci</div>
+                <div class="sub header">{{ red.striker == null ? '?' : red.striker.name }} & {{ red.defense == null ?
+                    '?' : red.defense.name }}</div>
             </h3>
             <h3 class="ui center aligned header">
-                    3 : 1
+                {{ red.score }} : {{ blue.score }}
             </h3>
-        </div>          
-        
-        <div class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
-            <div class="ui center aligned grid">
-                    <div class="two column row">
-                        <div class="center aligned column">
-                            <a class="ui right aligned large blue label">
-                                <img class="ui right spaced avatar image" src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg">
-                                Rudi
-                            </a>
-                        </div>
-                        <div class="center aligned column">
-                                <a class="ui right aligned large blue label">
-                                    <img class="ui right spaced avatar image" src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg">
-                                    Marci
-                                </a>
-                        </div>
-                    </div>
-                    <div class="one column row">
-                        <div class="column">
-                            <div style="width: 400px; height: 200px; background-color: red; margin: auto;"></div>
+        </div>
+
+        <div id="players-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
+            <div class="ui two column grid">
+                <div v-if="blue.striker == null || blue.defense == null || red.striker == null || red.defense == null" class="row">
+                    <div class="column">
+                        <div v-if="red.striker == null || red.defense == null" class="ui compact fluid menu">
+                            <div class="ui simple dropdown fluid item">
+                                <i class="red plus icon"></i>
+                                Enter Game
+                                <div class="menu">
+                                    <div class="item" v-if="red.striker == null" v-on:click="setPlayer('red', 'striker')">Striker</div>
+                                    <div class="item" v-if="red.defense == null" v-on:click="setPlayer('red', 'defense')">Defense</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="two column row">
-                        <div class="column">
-                            <button class="ui active positive button">
-                                <i class="plus icon"></i>
-                                Enter
-                            </button>
-                        </div>
-                        <div class="column">
-                            <button class="ui active positive button">
-                                <i class="plus icon"></i>
-                                Enter
-                            </button>
+                    <div class="right aligned column">
+                        <div v-if="blue.striker == null || blue.defense == null" class="ui compact fluid menu">
+                            <div class="ui simple dropdown fluid blue item">
+                                <i class="blue plus icon"></i>
+                                Enter Game
+                                <div class="menu">
+                                    <div class="item" v-if="blue.striker == null" v-on:click="setPlayer('blue', 'striker')">Striker</div>
+                                    <div class="item" v-if="blue.defense == null" v-on:click="setPlayer('blue', 'defense')">Defense</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="column">
+                        <a v-if="red.striker != null" class="ui large red image fluid label" v-on:click="score(red.striker)">
+                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ red.striker.name }}
+                            <div class="detail" style="float:right">
+                                31
+                                <i class="arrow down icon"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a v-if="blue.defense != null" class="ui large blue image fluid label" v-on:click="score(blue.defense)">
+                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ blue.defense.name }}
+                            <div class="detail" style="float:right">
+                                22
+                                <i class="arrow up icon"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <a v-if="red.defense != null" class="ui large red image fluid label" v-on:click="score(red.defense)">
+                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ red.defense.name }}
+                            <div class="detail" style="float:right">
+                                31
+                                <i class="arrow down icon"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a v-if="blue.striker != null" class="ui large blue image fluid label" v-on:click="score(blue.striker)">
+                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            {{ blue.striker.name }}
+                            <div class="detail" style="float:right">
+                                22
+                                <i class="arrow up icon"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
+        <div id="events-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
+            <div class="ui padded grid">
+                <div class="eight wide column">
+                    <button class="ui positive fluid button">
+                        <i class="futbol outline icon"></i>
+                        Goal
+                    </button>
+                </div>
+                <div class="four wide padded column">
+                    <button class="ui fluid button">
+                        Self Goal
+                    </button>
+                </div>
+                <div class="four wide right floated column">
+                    <button class="ui fluid button">
+                        End Game
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="events-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
             <table class="ui very basic celled table">
                 <thead>
-                  <tr><th>Player</th>
-                  <th>Event</th>
-                  <th>Action</th>
-                </tr></thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Event</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
                 <tbody>
-                  <tr class="positive">
-                    <td>
-                      <h4 class="ui blue image header">
-                        <img src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg" class="ui mini rounded image">
-                        <div class="content">
-                          Marci
-                          <div class="sub header">Comms
-                        </div>
-                      </div>
-                    </h4></td>
-                    <td>
-                      Goal
-                    </td>
-                    <td>
-                            <a class="ui dropdown item">
-                                    Select action
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu">
-                                        <div class="item">
-                                            <i class="hand paper icon"></i>
-                                            Own this goal
-                                        </div>
-                                        <div class="item">
-                                            <i class="trash icon"></i>
-                                            Remove
-                                        </div>
-                                        <div class="item">
-                                            <i class="dropdown icon"></i>
-                                            <span class="text">Assign to...</span>
-                                            <div class="menu">
-                                                <div class="item">
-                                                    <img class="ui avatar image" src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg">
-                                                    Rudolf Serfozo
-                                                </div>
-                                                <div class="item">
-                                                    <img class="ui avatar image" src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg">
-                                                    Sandor Koncz
-                                                </div>
-                                                <div class="item">
-                                                    <img class="ui avatar image" src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg">
-                                                    Jozsef Sipos
-                                                </div>
+                    <tr v-bind:class="{positive: item.isPositive, negative: !item.isPositive}" v-for="item in history">
+                        <td>
+                            <h4 class="ui image header" v-bind:class="{red: item.isRed, blue: !item.isRed}">
+                                <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg" class="ui mini rounded image">
+                                <div class="content">
+                                    {{ item.playerName }}
+                                    <div class="sub header">{{ item.dept }}
+                                    </div>
+                                </div>
+                            </h4>
+                        </td>
+                        <td>
+                            {{ item.event }}
+                            <br />
+                            <small>{{ item.timestamp }}</small>
+                        </td>
+                        <td>
+                            <!--<a class="ui dropdown action-menu">
+                                Select action
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item">
+                                        <i class="hand paper icon"></i>
+                                        Own this goal
+                                    </div>
+                                    <div class="item" v-on:click="removeHistoryItem(item)">
+                                        <i class="trash icon"></i>
+                                        Remove
+                                    </div>
+                                    <div class="item">
+                                        <i class="dropdown icon"></i>
+                                        <span class="text">Assign to...</span>
+                                        <div class="menu">
+                                            <div class="item" v-for="player in players">
+                                                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/matthew.png">
+                                                {{ player.fullName }}
                                             </div>
                                         </div>
                                     </div>
-                                  </a>
-                    </td>
-                  </tr>
-                  <tr class="positive">
-                    <td>
-                      <h4 class="ui blue image header">
-                        <img src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg" class="ui mini rounded image">
-                        <div class="content">
-                          Rudi
-                          <div class="sub header">Comms
-                        </div>
-                      </div>
-                    </h4></td>
-                    <td>
-                      Goal
-                    </td>
-                    <td>
-                        
-                    </td>
-                  </tr>
-                  <tr class="negative">
-                    <td>
-                      <h4 class="ui red image header">
-                        <img src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg" class="ui mini rounded image">
-                        <div class="content">
-                          Sanyi
-                          <div class="sub header">Puli
-                        </div>
-                      </div>
-                    </h4></td>
-                    <td>
-                      Own Goal
-                    </td>
-                    <td>
-                        
-                    </td>
-                  </tr>
-                  <tr class="positive">
-                    <td>
-                      <h4 class="ui red image header">
-                        <img src="https://pbs.twimg.com/profile_images/337947139/twitterProfilePhoto_400x400.jpg" class="ui mini rounded image">
-                        <div class="content">
-                          Józsi
-                          <div class="sub header">Puli
-                        </div>
-                      </div>
-                    </h4></td>
-                    <td>
-                      Goal
-                    </td>
-                    <td>
-                        
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
+                                </div>
+                            </a>-->
 
+                            <div class="ui dropdown action-menu">
+                                Select action...
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item">Choice 1</div>
+                                    <div class="item">Disabled</div>
+                                    <div class="item">Choice 3</div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="./index.js"></script>
+</body>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.js"></script>
         <script src="./index.js"></script>
