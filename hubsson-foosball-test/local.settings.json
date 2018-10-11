@@ -1,0 +1,15 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_EXTENSION_VERSION": "~2",
+    "ScmType": "None",
+    "WEBSITE_AUTH_ENABLED": "False",
+    "AzureWebJobsDashboard": "DefaultEndpointsProtocol=https;AccountName=hubssonfoosballstorage;AccountKey=evWv8PKADlRuJuSsUOvETL0YfG1rxevWgZmyDj+wghlMDZOo23dJSqt4LUl0c7Znm1x2BAhen7egJ+VDg3aCIw==",
+    "WEBSITE_NODE_DEFAULT_VERSION": "8.11.1",
+    "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "DefaultEndpointsProtocol=https;AccountName=hubssonfoosballstorage;AccountKey=evWv8PKADlRuJuSsUOvETL0YfG1rxevWgZmyDj+wghlMDZOo23dJSqt4LUl0c7Znm1x2BAhen7egJ+VDg3aCIw==",
+    "WEBSITE_CONTENTSHARE": "hubsson-foosball-test-content-ecef",
+    "WEBSITE_SITE_NAME": "hubsson-foosball-test",
+    "WEBSITE_SLOT_NAME": "Production",
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=hubssonfoosballstorage;AccountKey=evWv8PKADlRuJuSsUOvETL0YfG1rxevWgZmyDj+wghlMDZOo23dJSqt4LUl0c7Znm1x2BAhen7egJ+VDg3aCIw=="
+  }
+}
