@@ -1,6 +1,22 @@
 <template>
   <div id="app">
-    <router-view/>
+    <div class="ui secondary menu" style="width: 600px; margin: auto; margin-top: 10px;">
+      <a class="active item">
+        Game
+      </a>
+      <a class="item">
+        Statistics
+      </a>
+      <a class="item">
+        Reservations
+      </a>
+      <div class="right menu">
+        <a class="ui red item">
+          Logout
+        </a>
+      </div>
+    </div>
+  <router-view/>
   </div>
 </template>
 

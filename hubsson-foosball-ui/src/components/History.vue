@@ -25,16 +25,16 @@
                             <br />
                             <small>{{ item.timestamp }}</small>
                         </td>
-                        <td>
-                            <div class="ui dropdown action-menu">
-                                Select action...
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div class="item">Choice 1</div>
-                                    <div class="item">Disabled</div>
-                                    <div class="item">Choice 3</div>
-                                </div>
-                            </div>
+                        <td class="collapsing">
+                            <button class="ui icon green button" data-tooltip="It was me">
+                                <i class="icon hand paper"></i>
+                            </button>
+                            <button class="ui icon blue button" data-tooltip="Change goal">
+                                <i class="icon exchange"></i>
+                            </button>
+                            <button class="ui icon red button" data-tooltip="Remove">
+                                <i class="icon trash alternate"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>

@@ -1,5 +1,5 @@
 <template>
-    <div id="score-card" class="ui clearing segment" style="width: 600px; margin: auto; margin-top: 30px;">
+    <div id="score-card" class="ui clearing green segment" style="width: 600px; margin: auto; margin-top: 30px;">
         <h3 class="ui right floated blue header">
             Blue Team
             <div class="sub header">{{ blue.striker == null ? '?' : blue.striker.name }} & {{ blue.defense == null

@@ -12,7 +12,7 @@ export default new Vuex.Store({
       defense: {
         name: "Blue D Name"
       },
-      score: 1
+      score: 0
     },
     red: {
       striker: {
@@ -21,7 +21,7 @@ export default new Vuex.Store({
       defense: {
         name: "Red D Name"
       },
-      score: 2
+      score: 0
     },
     history: []
   },

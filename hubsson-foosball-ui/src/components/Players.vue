@@ -33,7 +33,7 @@
                         <a v-if="red.striker != null" class="ui large red image fluid label" v-on:click="score(red.striker)">
                             <img style="float:left" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
                             {{ red.striker.name }}
-                            <div class="detail" style="float:right">
+                            <div class="detail" style="float:right" data-tooltip="Current rank">
                                 31
                                 <i class="arrow down icon"></i>
                             </div>
@@ -41,9 +41,9 @@
                     </div>
                     <div class="column">
                         <a v-if="blue.defense != null" class="ui large blue image fluid label" v-on:click="score(blue.defense)">
-                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            <img style="float:left" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
                             {{ blue.defense.name }}
-                            <div class="detail" style="float:right">
+                            <div class="detail" style="float:right" data-tooltip="Current rank">
                                 22
                                 <i class="arrow up icon"></i>
                             </div>
@@ -54,9 +54,9 @@
                 <div class="row">
                     <div class="column">
                         <a v-if="red.defense != null" class="ui large red image fluid label" v-on:click="score(red.defense)">
-                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            <img style="float:left" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
                             {{ red.defense.name }}
-                            <div class="detail" style="float:right">
+                            <div class="detail" style="float:right" data-tooltip="Current rank">
                                 31
                                 <i class="arrow down icon"></i>
                             </div>
@@ -64,9 +64,9 @@
                     </div>
                     <div class="column">
                         <a v-if="blue.striker != null" class="ui large blue image fluid label" v-on:click="score(blue.striker)">
-                            <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                            <img style="float:left" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
                             {{ blue.striker.name }}
-                            <div class="detail" style="float:right">
+                            <div class="detail" style="float:right" data-tooltip="Current rank">
                                 22
                                 <i class="arrow up icon"></i>
                             </div>
