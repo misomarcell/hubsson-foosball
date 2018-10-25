@@ -9,6 +9,7 @@
       </a>
       <a class="item">
         Reservations
+        <a class="ui red circular label">2</a>
       </a>
       <div class="right menu">
         <a class="ui red item">

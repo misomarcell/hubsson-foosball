@@ -29,7 +29,7 @@
                             <button class="ui icon green button" data-tooltip="It was me">
                                 <i class="icon hand paper"></i>
                             </button>
-                            <button class="ui icon blue button" data-tooltip="Change goal">
+                            <button class="ui icon blue button" data-tooltip="Change to own-goal">
                                 <i class="icon exchange"></i>
                             </button>
                             <button class="ui icon red button" data-tooltip="Remove">

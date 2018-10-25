@@ -85,7 +85,7 @@ export default Vue.extend({
     return this.$store.state;
   },
   methods: {
-    score: function(player) {
+    score: function(player: any) {
       var color = null;
       if (player === this.red.striker || player === this.red.defense) {
         this.red.score++;
