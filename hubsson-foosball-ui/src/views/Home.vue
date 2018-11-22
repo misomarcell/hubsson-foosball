@@ -21,16 +21,15 @@ export default Vue.extend({
   methods: {
     async startGame() {
       //console.log("%cGAME STARTED", "color: red; font-size: 16em");
+      let body = {
+        name: "Tomi"
+      };
       let response = await fetch(
-        "https://hubsson-foosball-functions.azurewebsites.net/api/startGame?name=foos",
+        "https://hubsson-foosball-functions.azurewebsites.net/api/startGame",
         {
-          method: "GET", // *GET, POST, PUT, DELETE, etc.
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors",
-          headers: {
-            "Content-Type": "text/html",
-            "Access-Control-Allow-Origin": "*"
-          }
-          // TODO: Post
+          body: JSON.stringify(body)
         }
       );
 

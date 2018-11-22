@@ -80,12 +80,13 @@
 <script lang="ts">
 import Vue from "vue";
 import moment from "moment";
+
 export default Vue.extend({
   data() {
     return this.$store.state;
   },
   methods: {
-    score: function(player: any) {
+    score: async function(player: any) {
       var color = null;
       if (player === this.red.striker || player === this.red.defense) {
         this.red.score++;
@@ -96,6 +97,18 @@ export default Vue.extend({
       } else {
         console.error("Cannot determine team for " + player);
       }
+
+      let response = await fetch(
+        "https://hubsson-foosball-functions.azurewebsites.net/api/setScore",
+        {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors",
+          body: JSON.stringify({
+            blue: this.$store.state.blue.score,
+            red: this.$store.state.red.score
+          })
+        }
+      );
 
       this.history.unshift({
         playerName: player.name,

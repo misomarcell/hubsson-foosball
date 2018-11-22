@@ -32,11 +32,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
+import Pusher from "pusher-js";
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+  @Prop()
+  private msg!: string;
+
+  created() {
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher("ba07e9ae8cac25d7175b", {
+      cluster: "eu"
+    });
+
+    var channel = pusher.subscribe("my-channel");
+    console.log("Subscribed");
+
+    channel.bind("my-event", function(data: any) {
+      alert(JSON.stringify(data));
+    });
+  }
 }
 </script>
 

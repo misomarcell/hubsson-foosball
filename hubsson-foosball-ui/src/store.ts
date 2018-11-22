@@ -25,6 +25,11 @@ export default new Vuex.Store({
     },
     history: []
   },
-  mutations: {},
+  mutations: {
+    setScores(state, scores) {
+      state.blue.score = scores.blue;
+      state.red.score = scores.red;
+    }
+  },
   actions: {}
 });
