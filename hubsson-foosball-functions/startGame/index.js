@@ -12,7 +12,7 @@ var pusher = new Pusher({
 module.exports = async function(context, req) {
   context.log("JavaScript HTTP trigger function processed a request.");
 
-  if (req.query.name || (req.body && req.body.name)) {
+  if (req.body) {
     let connectionString = process.env.AzureWebJobsStorage;
     let tableService = azure.createTableService(connectionString);
 
@@ -27,23 +27,36 @@ module.exports = async function(context, req) {
       context.log(result);
     });
 
-    var entGen = azure.TableUtilities.entityGenerator;
-    var entity = {
-      PartitionKey: entGen.String("asd"),
+    let entGen = azure.TableUtilities.entityGenerator;
+    let entity = {
+      PartitionKey: entGen.String("match"),
       RowKey: entGen.String(guid()),
-      name: req.body.name
+      ...req.body
     };
 
-    tableService.insertEntity("test", entity, (error, result, response) => {
+    tableService.insertEntity("test", entity, {echoContent: true}, (error, result, response) => {
+      if(error) {
+        context.log("testlog");
+        context.res = {
+          statusCode: 500
+        };  
+      }
+
+        context.log("SALALALALALAL" + result);
+
       context.res = {
-        statusCode: error ? 400 : 204,
-        body: "Worked"
+        statusCode: 200,
+        body: JSON.stringify(result)
       };
+
+      context.done();
+
     });
 
     pusher.trigger("my-channel", "my-event", {
       message: "hello world"
     });
+
   } else {
     context.res = {
       status: 400,

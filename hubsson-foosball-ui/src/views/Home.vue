@@ -1,10 +1,10 @@
 <template>
-    <div id="app">
-      <scoreBoard></scoreBoard>
-      <players></players>
-      <history></history>
-      <button id="dummy-button" @click="startGame">Start game</button>
-    </div>
+  <div id="app">
+    <scoreBoard></scoreBoard>
+    <players></players>
+    <history></history>
+    <button id="dummy-button" @click="startGame">Start game</button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -22,7 +22,10 @@ export default Vue.extend({
     async startGame() {
       //console.log("%cGAME STARTED", "color: red; font-size: 16em");
       let body = {
-        name: "Tomi"
+        redScore: 0,
+        blueScore: 0,
+        redPlayers: "p1, p2",
+        bluePlayers: "p3, p4"
       };
       let response = await fetch(
         "https://hubsson-foosball-functions.azurewebsites.net/api/startGame",
