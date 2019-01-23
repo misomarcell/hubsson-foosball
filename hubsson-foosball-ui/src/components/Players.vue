@@ -78,48 +78,48 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import moment from "moment";
+import Vue from 'vue';
+import moment from 'moment';
 
 export default Vue.extend({
   data() {
     return this.$store.state;
   },
   methods: {
-    score: async function(player: any) {
-      var color = null;
+    async score(player: any) {
+      let color = null;
       if (player === this.red.striker || player === this.red.defense) {
         this.red.score++;
-        color = "red";
+        color = 'red';
       } else if (player === this.blue.striker || player === this.blue.defense) {
         this.blue.score++;
-        color = "blue";
+        color = 'blue';
       } else {
-        console.error("Cannot determine team for " + player);
+        // console.error('Cannot determine team for ' + player);
       }
 
-      let response = await fetch(
-        "https://hubsson-foosball-functions.azurewebsites.net/api/setScore",
+      const response = await fetch(
+        `${this.$store.getters.functionsHost}/api/setScore`,
         {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          mode: "cors",
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors',
           body: JSON.stringify({
             blue: this.$store.state.blue.score,
-            red: this.$store.state.red.score
-          })
-        }
+            red: this.$store.state.red.score,
+          }),
+        },
       );
 
       this.history.unshift({
         playerName: player.name,
         dept: player.dept,
-        event: player.name !== "Sanyi" ? "Goal • 2:1" : "Own Goal",
-        isPositive: player.name !== "Sanyi",
-        isRed: color === "red",
-        timestamp: moment().format("HH:mm:ss")
+        event: player.name !== 'Sanyi' ? 'Goal • 2:1' : 'Own Goal',
+        isPositive: player.name !== 'Sanyi',
+        isRed: color === 'red',
+        timestamp: moment().format('HH:mm:ss'),
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -22,26 +22,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import Pusher from "pusher-js";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import Pusher from 'pusher-js';
 
 @Component
 export default class HelloWorld extends Vue {
   @Prop()
   private msg!: string;
 
-  created() {
+  public created() {
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher("ba07e9ae8cac25d7175b", {
-      cluster: "eu"
+    const pusher = new Pusher('ba07e9ae8cac25d7175b', {
+      cluster: 'eu',
     });
 
-    var channel = pusher.subscribe("my-channel");
-    console.log("Subscribed");
+    const channel = pusher.subscribe('my-channel');
+    // console.log('Subscribed');
 
-    channel.bind("my-event", data => {
-      this.$store.commit("setScores", data.message);
+    channel.bind('my-event', (data: any) => {
+      this.$store.commit('setScores', data.message);
     });
   }
 }
