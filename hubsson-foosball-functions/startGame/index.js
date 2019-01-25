@@ -11,6 +11,12 @@ var pusher = new Pusher({
 
 module.exports = async function(context, req) {
   context.log("JavaScript HTTP trigger function processed a request.");
+  if (req.Headers.Contains("Origin"))
+  {
+     context.res.Headers.Add("Access-Control-Allow-Credentials", "true");
+     context.res.Headers.Add("Access-Control-Allow-Origin", "*");
+     context.res.Headers.Add("Access-Control-Allow-Methods", "GET, OPTIONS");
+  }
 
   if (req.body) {
     let connectionString = process.env.AzureWebJobsStorage;
@@ -42,14 +48,13 @@ module.exports = async function(context, req) {
         };  
       }
 
-        context.log("SALALALALALAL" + result);
+      context.log("SALALALALALAL");
+      context.log(result);
 
       context.res = {
         statusCode: 200,
         body: JSON.stringify(result)
       };
-
-      context.done();
 
     });
 
@@ -63,6 +68,8 @@ module.exports = async function(context, req) {
       body: "Please pass a name on the query string or in the request body"
     };
   }
+
+  context.done();
 
   function guid() {
     function s4() {

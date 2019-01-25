@@ -27,8 +27,8 @@ export default new Vuex.Store({
   },
   getters: {
     functionsHost(state, getters) {
-      return 'https://hubsson-foosball-functions.azurewebsites.net';
-      // return 'http://localhost:7071';
+      // return 'https://hubsson-foosball-functions.azurewebsites.net';
+      return 'http://localhost:7071';
     },
   },
   mutations: {

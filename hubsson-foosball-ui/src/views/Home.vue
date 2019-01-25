@@ -24,8 +24,14 @@ export default Vue.extend({
       const body = {
         redScore: 0,
         blueScore: 0,
-        redPlayers: 'p1, p2',
-        bluePlayers: 'p3, p4',
+        redPlayers: { 
+          striker: 'Marci',
+          defence: 'Zoli'
+        },
+        bluePlayers:  { 
+          striker: 'Szilárd',
+          defence: 'Laci'
+        },
       };
       const response = await fetch(
         `${this.$store.getters.functionsHost}/api/startGame`,
@@ -35,6 +41,7 @@ export default Vue.extend({
           body: JSON.stringify(body),
         },
       );
+      console.log(response)
     },
   },
 });
