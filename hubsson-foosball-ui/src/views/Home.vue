@@ -32,25 +32,30 @@ export default Vue.extend({
   },
   methods: {
     async startGame() {
-      var starCountRef = Firebase.database().ref(
-        "/foosball/wJ39i8cANmbyahbQXt1M"
+        Firebase.database().ref('users/' + 1).set({
+          username: "name",
+          email: "email",
+        });
+
+      var dbRef = Firebase.database().ref(
+        "users"
       );
-      starCountRef.on("value", function(snapshot) {
+      dbRef.on("value", function(snapshot) {
         console.log("snapshot:");
-        console.log(snapshot);
+        console.log(snapshot.val());
       });
 
-      db.collection("foosball")
-        .add({
-          blueScore: 2,
-          redScore: 3
-        })
-        .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-          console.error("Error adding document: ", error);
-        });
+      // db.collection("foosball")
+      //   .add({
+      //     blueScore: 2,
+      //     redScore: 3
+      //   })
+      //   .then(function(docRef) {
+      //     console.log("Document written with ID: ", docRef.id);
+      //   })
+      //   .catch(function(error) {
+      //     console.error("Error adding document: ", error);
+      //   });
 
       // // console.log("%cGAME STARTED", "color: red; font-size: 16em");
       // const body = {
