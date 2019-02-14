@@ -22,7 +22,6 @@ let app = Firebase.initializeApp({
   storageBucket: "hubsson-foosball-eur3.appspot.com",
   messagingSenderId: "978313456818"
 });
-let db = Firebase.firestore();
 
 export default Vue.extend({
   components: {
@@ -30,55 +29,29 @@ export default Vue.extend({
     players: Players,
     history: History
   },
+  data() {
+    return {
+      matchId: 0,
+      score: 0
+    };
+  },
+  mounted() {
+    var dbRef = Firebase.database().ref("matches/active/");
+    dbRef.on("value", function(snapshot) {
+      console.log("snapshot:");
+      console.log(snapshot.val());
+    });
+  },
   methods: {
     async startGame() {
-        Firebase.database().ref('users/' + 1).set({
-          username: "name",
-          email: "email",
+      this.matchId = Date.now();
+      this.score += 1;
+      Firebase.database()
+        .ref("matches/active")
+        .set({
+          matchId: this.matchId,
+          scores: this.score
         });
-
-      var dbRef = Firebase.database().ref(
-        "users"
-      );
-      dbRef.on("value", function(snapshot) {
-        console.log("snapshot:");
-        console.log(snapshot.val());
-      });
-
-      // db.collection("foosball")
-      //   .add({
-      //     blueScore: 2,
-      //     redScore: 3
-      //   })
-      //   .then(function(docRef) {
-      //     console.log("Document written with ID: ", docRef.id);
-      //   })
-      //   .catch(function(error) {
-      //     console.error("Error adding document: ", error);
-      //   });
-
-      // // console.log("%cGAME STARTED", "color: red; font-size: 16em");
-      // const body = {
-      //   redScore: 0,
-      //   blueScore: 0,
-      //   redPlayers: {
-      //     striker: 'Marci',
-      //     defence: 'Zoli'
-      //   },
-      //   bluePlayers:  {
-      //     striker: 'Szilárd',
-      //     defence: 'Laci'
-      //   },
-      // };
-      // const response = await fetch(
-      //   `${this.$store.getters.functionsHost}/api/startGame`,
-      //   {
-      //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      //     mode: 'cors',
-      //     body: JSON.stringify(body),
-      //   },
-      // );
-      // console.log(response)
     }
   }
 });
