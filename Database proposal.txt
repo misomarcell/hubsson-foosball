@@ -1,0 +1,51 @@
+Hubsson fussball
+
+Code first database JSON representation
+
+Template is the following
+
+TableName 
+{
+	columnName: columnType
+}
+------------
+Players
+{
+	id: number	PK
+	firstName: string
+	lastName: string
+}
+
+Teams
+{
+	id: number			CompositeKey
+	playerId: number	CompositeKey
+	name: string
+}
+
+Matches
+{
+	id: number	CompositeKey
+	playerId: number	CompositeKey
+	started: Date	Required
+	ended: Date		Nullable
+	goals: number
+	ownGoals: number
+}
+
+Buttons
+{
+	id: number PK
+	description: string
+}
+
+ButtonMapping
+{
+	id: number PK
+	matchId: number	FK
+	playerId: number FK
+	buttonId: number FK
+}
+
+
+
