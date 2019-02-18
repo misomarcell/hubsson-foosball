@@ -41,6 +41,10 @@ export default Vue.extend({
       console.log("snapshot:");
       console.log(snapshot.val());
     });
+
+    dbRef.once("value").then(function(snapshot) {
+      console.log("Snapshot: " + snapshot.val());
+    });
   },
   methods: {
     async startGame() {
