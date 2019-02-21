@@ -1,6 +1,11 @@
 # hubsson-foosball
 Install firebase tools:
 `npm install -g firebase-tools`
+`firebase login`
+
+# Start the app
+`npm run serve`
+
 
 Contract for THE BOX:
 1. Single tap: goal, double tap: ownGoal

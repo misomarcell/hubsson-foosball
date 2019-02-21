@@ -31,31 +31,53 @@ export default Vue.extend({
   },
   data() {
     return {
+      matchesRef: Firebase.database().ref("matches/"),
       matchId: 0,
       score: 0
     };
   },
   mounted() {
-    var dbRef = Firebase.database().ref("matches/active/");
-    dbRef.on("value", function(snapshot) {
+    this.matchesRef.on("value", function(snapshot) {
       console.log("snapshot:");
       console.log(snapshot.val());
     });
 
-    dbRef.once("value").then(function(snapshot) {
+    this.matchesRef.once("value").then(function(snapshot) {
       console.log("Snapshot: " + snapshot.val());
     });
   },
   methods: {
     async startGame() {
-      this.matchId = Date.now();
-      this.score += 1;
-      Firebase.database()
-        .ref("matches/active")
-        .set({
-          matchId: this.matchId,
-          scores: this.score
-        });
+      var newMatchKey = this.matchesRef.push().key;
+      const match = {
+        id: newMatchKey,
+        startTime: "2019-01-01 01:01:01",
+        endTime: null,
+        teams: {
+          red: {
+            striker: "Józsi",
+            defender: "Gábor",
+            score: 0
+          },
+          blue: {
+            striker: "Zoli",
+            defender: "Ezékiel",
+            score: 0
+          }
+        },
+        history: [
+          {
+            eventType: "Goal",
+            player: "Zoli",
+            eventTime: "2019-01-01 01:01:01"
+          }
+        ]
+      };
+
+      var updates: any = {};
+      if (newMatchKey) updates[newMatchKey] = match;
+
+      return this.matchesRef.update(updates);
     }
   }
 });
