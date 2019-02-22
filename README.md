@@ -43,27 +43,28 @@ PUT /undo
 ```
 match
 {
-	"id": "string",
-	"startTime": "2019-01-01 01:01:01",
-	"endTime": undefined,
-	"teams": {
-		"red": {
-			"striker": "string",
-			"defender": "string",
-			"score": 0
-		},
-		"blue": {
-			"striker": "string",
-			"defender": "string",
-			"score": 0
-		}
+    "id": "string",
+    "startTime": dateTime,
+    "endTime": dateTime,
+    "teams": {
+        "red": {
+            "striker": "string",
+	    "defender": "string",
+	    "score": int
+        },
+	"blue": {
+	    "striker": "string",
+	    "defender": "string",
+	    "score": int
+	}
+    },
+    "history": [
+        {
+	    "eventType": "string",
+	    "player": "string",
+	    "eventTime": dateTime
 	},
-	"history": [
-		{
-			"eventType": "string",
-			"player": "string",
-			"eventTime": "2019-01-01 01:01:01"
-		}
-	]
+	{...}
+    ]
 }
 ```
