@@ -1,13 +1,20 @@
 # hubsson-foosball
+
+## Getting started
 Install firebase tools:
-`npm install -g firebase-tools`
+`npm install -g firebase-tools` 
+
+Login to firebase:
 `firebase login`
 
-# Start the app
+Deploy app:
+`firebase deploy`
+
+Start the app:
 `npm run serve`
 
-
-Contract for THE BOX:
+## Contract for THE BOX:
+```
 1. Single tap: goal, double tap: ownGoal
 {
     "team": "red | blue",
@@ -30,8 +37,9 @@ PUT /undo
         "position": null,
     }
 }
+```
 
-Database Contract:
+## Database Contract:
 ```
 match
 {
