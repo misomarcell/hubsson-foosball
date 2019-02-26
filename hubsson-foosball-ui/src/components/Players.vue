@@ -98,17 +98,7 @@ export default Vue.extend({
         // console.error('Cannot determine team for ' + player);
       }
 
-      const response = await fetch(
-        `${this.$store.getters.functionsHost}/api/setScore`,
-        {
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          mode: 'cors',
-          body: JSON.stringify({
-            blue: this.$store.state.blue.score,
-            red: this.$store.state.red.score,
-          }),
-        },
-      );
+
 
       this.history.unshift({
         playerName: player.name,

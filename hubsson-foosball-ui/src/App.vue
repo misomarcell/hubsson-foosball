@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Pusher from "pusher-js";
 
 @Component
 export default class HelloWorld extends Vue {
@@ -25,19 +24,7 @@ export default class HelloWorld extends Vue {
   private msg!: string;
 
   public created() {
-    console.log("asd");
-    Pusher.logToConsole = true;
-
-    const pusher = new Pusher("ba07e9ae8cac25d7175b", {
-      cluster: "eu"
-    });
-
-    const channel = pusher.subscribe("my-channel");
-    // console.log('Subscribed');
-
-    channel.bind("my-event", (data: any) => {
-      this.$store.commit("setScores", data.message);
-    });
+    console.log("created");
   }
 }
 </script>
