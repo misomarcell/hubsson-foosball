@@ -1,13 +1,20 @@
 # hubsson-foosball
+
+## Getting started
 Install firebase tools:
-`npm install -g firebase-tools`
+`npm install -g firebase-tools` 
+
+Login to firebase:
 `firebase login`
 
-# Start the app
+Deploy app:
+`firebase deploy`
+
+Start the app:
 `npm run serve`
 
-
-Contract for THE BOX:
+## Contract for THE BOX:
+```
 1. Single tap: goal, double tap: ownGoal
 {
     "team": "red | blue",
@@ -30,32 +37,34 @@ PUT /undo
         "position": null,
     }
 }
+```
 
-Database Contract:
+## Database Contract:
 ```
 match
 {
-	"id": "string",
-	"startTime": "2019-01-01 01:01:01",
-	"endTime": undefined,
-	"teams": {
-		"red": {
-			"striker": "string",
-			"defender": "string",
-			"score": 0
-		},
-		"blue": {
-			"striker": "string",
-			"defender": "string",
-			"score": 0
-		}
+    "id": "string",
+    "startTime": dateTime,
+    "endTime": dateTime,
+    "teams": {
+        "red": {
+            "striker": "string",
+	    "defender": "string",
+	    "score": int
+        },
+	"blue": {
+	    "striker": "string",
+	    "defender": "string",
+	    "score": int
+	}
+    },
+    "history": [
+        {
+	    "eventType": "string",
+	    "player": "string",
+	    "eventTime": dateTime
 	},
-	"history": [
-		{
-			"eventType": "string",
-			"player": "string",
-			"eventTime": "2019-01-01 01:01:01"
-		}
-	]
+	{...}
+    ]
 }
 ```
