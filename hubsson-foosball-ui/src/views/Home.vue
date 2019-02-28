@@ -12,16 +12,7 @@ import Vue from "vue";
 import ScoreBoard from "@/components/ScoreBoard.vue";
 import Players from "@/components/Players.vue";
 import History from "@/components/History.vue";
-import Firebase from "firebase";
-
-let app = Firebase.initializeApp({
-  apiKey: "AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo",
-  authDomain: "hubsson-foosball-eur3.firebaseapp.com",
-  databaseURL: "https://hubsson-foosball-eur3.firebaseio.com",
-  projectId: "hubsson-foosball-eur3",
-  storageBucket: "hubsson-foosball-eur3.appspot.com",
-  messagingSenderId: "978313456818"
-});
+import { database } from "../services/database";
 
 export default Vue.extend({
   components: {
@@ -31,24 +22,26 @@ export default Vue.extend({
   },
   data() {
     return {
-      matchesRef: Firebase.database().ref("matches/"),
       matchId: 0,
       score: 0
     };
   },
   mounted() {
-    this.matchesRef.on("value", function(snapshot) {
+    database.ref("/matches/").on("value", function(snapshot) {
       console.log("snapshot:");
       console.log(snapshot.val());
     });
 
-    this.matchesRef.once("value").then(function(snapshot) {
-      console.log("Snapshot: " + snapshot.val());
-    });
+    database
+      .ref("/matches/")
+      .once("value")
+      .then(function(snapshot) {
+        console.log("Snapshot: " + snapshot.val());
+      });
   },
   methods: {
     async startGame() {
-      var newMatchKey = this.matchesRef.push().key;
+      var newMatchKey = database.ref("/matches/").push().key;
       const match = {
         id: newMatchKey,
         startTime: "2019-01-01 01:01:01",
@@ -77,7 +70,7 @@ export default Vue.extend({
       var updates: any = {};
       if (newMatchKey) updates[newMatchKey] = match;
 
-      return this.matchesRef.update(updates);
+      return database.ref("/matches/").update(updates);
     }
   }
 });
