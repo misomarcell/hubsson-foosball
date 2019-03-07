@@ -3,7 +3,8 @@
     <scoreBoard></scoreBoard>
     <players></players>
     <history></history>
-    <button id="dummy-button" @click="startGame">Start game</button>
+    <button id="startButton" @click="startGame" :disabled="hasActiveMatch">Start game</button>
+    <button id="endButton" @click="endGame" :disabled="!hasActiveMatch">End game</button>
   </div>
 </template>
 
@@ -22,26 +23,33 @@ export default Vue.extend({
   },
   data() {
     return {
+      hasActiveMatch: false,
       matchId: 0,
       score: 0
     };
   },
   mounted() {
-    database.ref("/matches/").on("value", function(snapshot) {
-      console.log("snapshot:");
-      console.log(snapshot.val());
-    });
+    database.ref("/activeMatch/").on("value", snapshot => {
+      this.hasActiveMatch = !!snapshot!.val().matchId;
 
-    database
-      .ref("/matches/")
-      .once("value")
-      .then(function(snapshot) {
-        console.log("Snapshot: " + snapshot.val());
-      });
+      database
+        .ref("/matches/" + snapshot!.val().matchId)
+        .once("value")
+        .then(match => {
+          console.log(match.val());
+          console.log("Blue score: " + (match as any).val().teams.blue.score);
+          console.log("Red score: " + (match as any).val().teams.red.score);
+        });
+    });
   },
   methods: {
     async startGame() {
       var newMatchKey = database.ref("/matches/").push().key;
+      database.ref("/activeMatch").set({
+        matchId: newMatchKey
+      });
+      this.hasActiveMatch = true;
+
       const match = {
         id: newMatchKey,
         startTime: "2019-01-01 01:01:01",
@@ -71,6 +79,13 @@ export default Vue.extend({
       if (newMatchKey) updates[newMatchKey] = match;
 
       return database.ref("/matches/").update(updates);
+    },
+
+    async endGame() {
+      database.ref("/activeMatch").set({
+        matchId: ""
+      });
+      this.hasActiveMatch = false;
     }
   }
 });

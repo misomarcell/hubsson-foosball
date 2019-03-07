@@ -41,6 +41,10 @@ PUT /undo
 
 ## Database Contract:
 ```
+activeMatch{
+	"matchId": "string"
+}
+
 match
 {
     "id": "string",
@@ -60,11 +64,11 @@ match
     },
     "history": [
         {
-	    "eventType": "string",
-	    "player": "string",
-	    "eventTime": dateTime
-	},
-	{...}
+			"eventType": "string",
+			"player": "string",
+			"eventTime": dateTime
+		},
+		{...}
     ]
 }
 ```
