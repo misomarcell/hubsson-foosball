@@ -1,30 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { AppState } from "./models/app-state";
+import { Match } from "./models/match";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    blue: {
-      striker: {
-        name: "Blue S Name"
-      },
-      defense: {
-        name: "Blue D Name"
-      },
-      score: 0
-    },
-    red: {
-      striker: {
-        name: "Red S Name"
-      },
-      defense: {
-        name: "Red D Name"
-      },
-      score: 0
-    },
-    history: []
-  },
+    match: undefined
+  } as AppState,
   getters: {
     functionsHost(state, getters) {
       // return 'https://hubsson-foosball-functions.azurewebsites.net';
@@ -32,9 +16,17 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setScores(state, scores) {
-      state.blue.score = scores.blue;
-      state.red.score = scores.red;
+    setScores(
+      state: AppState,
+      {
+        scoringTeam,
+        player
+      }: { scoringTeam: keyof Pick<Match, "blue" | "red">; player: string }
+    ) {
+      state.match![scoringTeam].score++;
+    },
+    setMatch(state: AppState, match: Match) {
+      state.match = match;
     }
   },
   actions: {}

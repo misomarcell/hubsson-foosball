@@ -47,8 +47,7 @@ export default Vue.extend({
             return;
           }
 
-          console.log("Blue score: " + match.blue.score);
-          console.log("Red score: " + match.red.score);
+          this.$store.commit("setMatch", match);
         });
     });
   },

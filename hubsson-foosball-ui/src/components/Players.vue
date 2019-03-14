@@ -122,7 +122,7 @@ export default Vue.extend({
     return this.$store.state;
   },
   methods: {
-    async score(player: any) {
+    async score(player: string) {
       let color = null;
       if (player === this.red.striker || player === this.red.defense) {
         this.red.score++;
