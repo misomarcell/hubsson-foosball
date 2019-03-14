@@ -14,6 +14,7 @@ import ScoreBoard from "@/components/ScoreBoard.vue";
 import Players from "@/components/Players.vue";
 import History from "@/components/History.vue";
 import { database } from "../services/database";
+import { Match } from "../models/match";
 
 export default Vue.extend({
   components: {
@@ -24,21 +25,30 @@ export default Vue.extend({
   data() {
     return {
       hasActiveMatch: false,
-      matchId: 0,
+      matchId: null,
       score: 0
     };
   },
   mounted() {
     database.ref("/activeMatch/").on("value", snapshot => {
-      this.hasActiveMatch = !!snapshot!.val().matchId;
+      this.hasActiveMatch = !!snapshot!.val();
+
+      if (!this.hasActiveMatch) {
+        return;
+      }
 
       database
         .ref("/matches/" + snapshot!.val().matchId)
         .once("value")
-        .then(match => {
-          console.log(match.val());
-          console.log("Blue score: " + (match as any).val().teams.blue.score);
-          console.log("Red score: " + (match as any).val().teams.red.score);
+        .then(snapshot => {
+          const match = snapshot.val() as Match;
+
+          if (!match) {
+            return;
+          }
+
+          console.log("Blue score: " + match.blue.score);
+          console.log("Red score: " + match.red.score);
         });
     });
   },
@@ -54,17 +64,15 @@ export default Vue.extend({
         id: newMatchKey,
         startTime: "2019-01-01 01:01:01",
         endTime: null,
-        teams: {
-          red: {
-            striker: "Józsi",
-            defender: "Gábor",
-            score: 0
-          },
-          blue: {
-            striker: "Zoli",
-            defender: "Ezékiel",
-            score: 0
-          }
+        red: {
+          striker: "Józsi",
+          defender: "Gábor",
+          score: 0
+        },
+        blue: {
+          striker: "Zoli",
+          defender: "Ezékiel",
+          score: 0
         },
         history: [
           {
@@ -82,9 +90,7 @@ export default Vue.extend({
     },
 
     async endGame() {
-      database.ref("/activeMatch").set({
-        matchId: ""
-      });
+      database.ref("/activeMatch").remove();
       this.hasActiveMatch = false;
     }
   }
