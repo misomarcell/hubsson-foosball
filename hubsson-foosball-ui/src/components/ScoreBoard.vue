@@ -20,7 +20,7 @@
 import Vue from 'vue';
 export default Vue.extend({
   data() {
-    return this.$store.state;
+    return this.$store.state.match;
   },
 });
 </script>

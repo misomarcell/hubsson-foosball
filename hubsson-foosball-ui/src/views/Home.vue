@@ -1,97 +1,97 @@
 <template>
   <div id="app">
-    <scoreBoard></scoreBoard>
-    <players></players>
-    <history></history>
-    <button id="startButton" @click="startGame" :disabled="hasActiveMatch">Start game</button>
-    <button id="endButton" @click="endGame" :disabled="!hasActiveMatch">End game</button>
+    <div v-if="$store.state.match">
+      <scoreBoard></scoreBoard>
+      <players></players>
+      <history></history>
+    </div>
+
+    <div v-else>Start new match</div>
+    <button id="dummy-button" @click="startGame">Start game</button>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import ScoreBoard from "@/components/ScoreBoard.vue";
-import Players from "@/components/Players.vue";
-import History from "@/components/History.vue";
-import { database } from "../services/database";
-import { Match } from "../models/match";
+import Vue from 'vue';
+import ScoreBoard from '@/components/ScoreBoard.vue';
+import Players from '@/components/Players.vue';
+import History from '@/components/History.vue';
+import Firebase from 'firebase';
+import { Match } from '../models/Match';
+
+const app = Firebase.initializeApp({
+  apiKey: 'AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo',
+  authDomain: 'hubsson-foosball-eur3.firebaseapp.com',
+  databaseURL: 'https://hubsson-foosball-eur3.firebaseio.com',
+  projectId: 'hubsson-foosball-eur3',
+  storageBucket: 'hubsson-foosball-eur3.appspot.com',
+  messagingSenderId: '978313456818',
+});
 
 export default Vue.extend({
   components: {
     scoreBoard: ScoreBoard,
     players: Players,
-    history: History
+    history: History,
   },
   data() {
     return {
-      hasActiveMatch: false,
-      matchId: null,
-      score: 0
+      activeMatchRef: Firebase.database().ref('activeMatch'),
+      matchId: 0,
+      score: 0,
     };
   },
   mounted() {
-    database.ref("/activeMatch/").on("value", snapshot => {
-      this.hasActiveMatch = !!snapshot!.val();
-
-      if (!this.hasActiveMatch) {
+    this.activeMatchRef.on('value', (snapshot) => {
+      const activeMatch = snapshot!.val();
+      console.log(activeMatch);
+      if (!activeMatch || !activeMatch.matchId) {
         return;
       }
 
-      database
-        .ref("/matches/" + snapshot!.val().matchId)
-        .once("value")
-        .then(snapshot => {
-          const match = snapshot.val() as Match;
-
-          if (!match) {
-            return;
-          }
-
-          this.$store.commit("setMatch", match);
+      Firebase.database().ref(`matches/${activeMatch.matchId}`)
+        .on('value', (match) => {
+          this.$store.commit('setMatch', match!.val() as Match);
+          console.log(match!.val());
         });
     });
   },
   methods: {
     async startGame() {
-      var newMatchKey = database.ref("/matches/").push().key;
-      database.ref("/activeMatch").set({
-        matchId: newMatchKey
-      });
-      this.hasActiveMatch = true;
-
+      const matchesRef = Firebase.database().ref('matches');
+      const newMatchKey = matchesRef.push().key;
       const match = {
         id: newMatchKey,
-        startTime: "2019-01-01 01:01:01",
+        startTime: '2019-01-01 01:01:01',
         endTime: null,
         red: {
-          striker: "Józsi",
-          defender: "Gábor",
-          score: 0
+          striker: 'Józsi',
+          defender: 'Gábor',
+          score: 0,
         },
         blue: {
-          striker: "Zoli",
-          defender: "Ezékiel",
-          score: 0
+          striker: 'Zoli',
+          defender: 'Ezékiel',
+          score: 0,
         },
         history: [
           {
-            eventType: "Goal",
-            player: "Zoli",
-            eventTime: "2019-01-01 01:01:01"
-          }
-        ]
+            eventType: 'Goal',
+            player: 'Zoli',
+            eventTime: '2019-01-01 01:01:01',
+          },
+        ],
       };
 
-      var updates: any = {};
-      if (newMatchKey) updates[newMatchKey] = match;
+      // const updates: any = {};
+      // if (newMatchKey) { updates[newMatchKey] = match; }
+      // matchesRef.update(updates);
+      Firebase.database().ref('matches/' + newMatchKey).set(match);
 
-      return database.ref("/matches/").update(updates);
+      this.activeMatchRef.set({
+        matchId: newMatchKey,
+      });
     },
-
-    async endGame() {
-      database.ref("/activeMatch").remove();
-      this.hasActiveMatch = false;
-    }
-  }
+  },
 });
 </script>

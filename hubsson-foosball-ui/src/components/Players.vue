@@ -119,7 +119,7 @@ import { database } from "../services/database";
 
 export default Vue.extend({
   data() {
-    return this.$store.state;
+    return this.$store.state.match;
   },
   methods: {
     async score(player: string) {
@@ -134,26 +134,16 @@ export default Vue.extend({
         // console.error('Cannot determine team for ' + player);
       }
 
-      database
-        .ref("/matches/")
-        .limitToLast(1)
-        .once("value")
-        .then(snapshot => {
-          let aaa = snapshot.val();
-          console.log(JSON.stringify(aaa));
-          console.log("First: " + aaa[Object.keys(aaa)[0]].id);
-        });
-
       this.history.unshift({
-        playerName: player.name,
-        dept: player.dept,
-        event: player.name !== "Sanyi" ? "Goal • 2:1" : "Own Goal",
-        isPositive: player.name !== "Sanyi",
-        isRed: color === "red",
-        timestamp: moment().format("HH:mm:ss")
+        playerName: player,
+        dept: player,
+        event: player !== "Sanyi" ? "Goal • 2:1" : 'Own Goal',
+        isPositive: player !== 'Sanyi',
+        isRed: color === 'red',
+        timestamp: moment().format('HH:mm:ss')
       });
     }
-  }
+  },
 });
 </script>
 
