@@ -25,7 +25,7 @@ export default new Vuex.Store({
     ) {
       state.match![scoringTeam].score++;
     },
-    setMatch(state: AppState, match: Match) {
+    setMatch(state: AppState, match: Match | undefined) {
       state.match = match;
     }
   },
