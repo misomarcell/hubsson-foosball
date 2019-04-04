@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class HelloWorld extends Vue {
@@ -24,7 +24,6 @@ export default class HelloWorld extends Vue {
   private msg!: string;
 
   public created() {
-    console.log("created");
   }
 }
 </script>

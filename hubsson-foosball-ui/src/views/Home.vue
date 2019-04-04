@@ -46,7 +46,6 @@ export default Vue.extend({
   mounted() {
     this.activeMatchRef.on("value", snapshot => {
       const activeMatch = snapshot!.val();
-      console.log(activeMatch);
       if (!activeMatch || !activeMatch.matchId) {
         this.$store.commit("setMatch", undefined);
         return;
@@ -56,7 +55,6 @@ export default Vue.extend({
         .ref(`matches/${activeMatch.matchId}`)
         .on("value", match => {
           this.$store.commit("setMatch", match!.val() as Match);
-          console.log(match!.val());
         });
     });
   },
@@ -74,23 +72,23 @@ export default Vue.extend({
       const newMatchKey = matchesRef.push().key;
       const match = {
         id: newMatchKey,
-        startTime: "2019-01-01 01:01:01",
+        startTime: '2019-01-01 01:01:01',
         endTime: null,
         red: {
-          striker: "Józsi",
-          defender: "Gábor",
+          striker: 'Józsi',
+          defender: 'Gábor',
           score: 0
         },
         blue: {
-          striker: "Zoli",
-          defender: "Ezékiel",
+          striker: 'Zoli',
+          defender: 'Ezékiel',
           score: 0
         },
         history: [
           {
-            eventType: "Goal",
-            player: "Zoli",
-            eventTime: "2019-01-01 01:01:01"
+            eventType: 'Goal',
+            player: 'Zoli',
+            eventTime: '2019-01-01 01:01:01'
           }
         ]
       };
@@ -99,13 +97,13 @@ export default Vue.extend({
       // if (newMatchKey) { updates[newMatchKey] = match; }
       // matchesRef.update(updates);
       Firebase.database()
-        .ref("matches/" + newMatchKey)
+        .ref('matches/' + newMatchKey)
         .set(match);
 
       this.activeMatchRef.set({
         matchId: newMatchKey
       });
     }
-  }
+  },
 });
 </script>

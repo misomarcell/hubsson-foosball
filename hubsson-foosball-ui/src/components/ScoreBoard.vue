@@ -17,25 +17,28 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue';
+
 export default Vue.extend({
   data() {
-    return this.$store.state;
+    return {
+      match: this.$store.state.match,
+    };
   },
   computed: {
-    redTeam: function(): string {
+    redTeam(): string {
       return `${this.match.red.striker} & ${this.match.red.defender}`;
     },
-    redScore: function(): number {
+    redScore(): number {
       return this.match.red.score;
     },
-    blueTeam: function(): string {
+    blueTeam(): string {
       return `${this.match.blue.striker} & ${this.match.blue.defender}`;
     },
-    blueScore: function(): number {
+    blueScore(): number {
       return this.match.blue.score;
-    }
-  }
+    },
+  },
 });
 </script>
 
