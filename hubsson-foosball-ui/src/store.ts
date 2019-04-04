@@ -21,13 +21,15 @@ export default new Vuex.Store({
       {
         scoringTeam,
         player
-      }: { scoringTeam: keyof Pick<Match, "blue" | "red">; player: string }
+      }: { scoringTeam: keyof Pick<Match, "blue" | 'red'>; player: string }
     ) {
       state.match![scoringTeam].score++;
     },
     setMatch(state: AppState, match: Match | undefined) {
+      console.log('Updating match from Realtime DB');
+      console.log(match);
       state.match = match;
-    }
+    },
   },
-  actions: {}
+  actions: {},
 });

@@ -9,21 +9,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-bind:class="{positive: item.isPositive, negative: !item.isPositive}" v-bind:key="item.id" v-for="item in history">
+                    <tr :class="{positive: item.isPositive, negative: !item.isPositive}"
+                        :key="item.time"
+                        v-for="item in match.history">
                         <td>
                             <h4 class="ui image header" v-bind:class="{red: item.isRed, blue: !item.isRed}">
                                 <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg" class="ui mini rounded image">
                                 <div class="content">
-                                    {{ item.playerName }}
+                                    {{ item.player }}
                                     <div class="sub header">{{ item.dept }}
                                     </div>
                                 </div>
                             </h4>
                         </td>
                         <td>
-                            {{ item.event }}
+                            {{ item.player }}
                             <br />
-                            <small>{{ item.timestamp }}</small>
+                            <small>{{ item.time }}</small>
                         </td>
                         <td class="collapsing">
                             <button class="ui icon green button" data-tooltip="It was me">
@@ -39,6 +41,9 @@
                     </tr>
                 </tbody>
             </table>
+            <pre>
+            {{ JSON.stringify(match, null, 2) }}
+            </pre>
         </div>
 </template>
 
@@ -46,7 +51,9 @@
 import Vue from 'vue';
 export default Vue.extend({
   data() {
-    return this.$store.state.match;
+    return {
+        match: this.$store.state.match,
+    };
   },
 });
 </script>

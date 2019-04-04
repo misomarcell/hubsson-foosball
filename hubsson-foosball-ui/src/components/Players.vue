@@ -5,9 +5,9 @@
         <div class="column">
           <a
             class="ui large red image fluid label"
-            v-on:click="score(red.striker)" >
+            v-on:click="score(match.red.striker)" >
             <img style="float:left" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-            {{ red.striker }}
+            {{ match.red.striker }}
             <div class="detail" style="float:right" data-tooltip="Current rank">
               31
               <i class="arrow down icon"></i>
@@ -17,10 +17,10 @@
         <div class="column">
           <a
             class="ui large blue image fluid label"
-            v-on:click="score(blue.defender)"
+            v-on:click="score(match.blue.defender)"
           >
             <img style="float:left" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-            {{ blue.defender }}
+            {{ match.blue.defender }}
             <div class="detail" style="float:right" data-tooltip="Current rank">
               22
               <i class="arrow up icon"></i>
@@ -33,9 +33,9 @@
         <div class="column">
           <a
             class="ui large red image fluid label"
-            v-on:click="score(red.defender)">
+            v-on:click="score(match.red.defender)">
             <img style="float:left" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-            {{ red.defender }}
+            {{ match.red.defender }}
             <div class="detail" style="float:right" data-tooltip="Current rank">
               31
               <i class="arrow down icon"></i>
@@ -45,9 +45,9 @@
         <div class="column">
           <a
             class="ui large blue image fluid label"
-            v-on:click="score(blue.striker)">
+            v-on:click="score(match.blue.striker)">
             <img style="float:left" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-            {{ blue.striker }}
+            {{ match.blue.striker }}
             <div class="detail" style="float:right" data-tooltip="Current rank">
               22
               <i class="arrow up icon"></i>
@@ -63,35 +63,42 @@
 import Vue from 'vue';
 import moment from 'moment';
 import { database } from '../services/database';
+import Firebase from 'firebase';
+import { Event } from '../models/event';
 
 export default Vue.extend({
   data() {
     return {
-      red: this.$store.state.match.red,
-      blue: this.$store.state.match.blue,
+      match: this.$store.state.match,
     };
   },
   methods: {
     async score(player: string) {
-      let color = null;
-      if (player === this.red.striker || player === this.red.defender) {
-        this.red.score++;
+      let color = '';
+      if (player === this.match.red.striker || player === this.match.red.defender) {
         color = 'red';
-      } else if (player === this.blue.striker || player === this.blue.defender) {
-        this.blue.score++;
+      } else if (player === this.match.blue.striker || player === this.match.blue.defender) {
         color = 'blue';
       } else {
-        // console.error('Cannot determine team for ' + player);
+        console.error('Cannot determine team for ' + player);
       }
 
-      this.history.unshift({
-        playerName: player,
-        dept: player,
-        event: player !== 'Sanyi' ? 'Goal • 2:1' : 'Own Goal',
-        isPositive: player !== 'Sanyi',
-        isRed: color === 'red',
-        timestamp: moment().format('HH:mm:ss'),
-      });
+      const update = {} as any;
+      const newEvent: Event = {
+        player,
+        time: new Date(),
+        type: 'goal',
+      };
+      console.log('Current history');
+      console.log(this.match.history);
+      update[`/${color}/score`] = this.match[color].score + 1;
+      update['/history'] = this.match.history ? [ newEvent, ...this.match.history ] : [newEvent];
+      console.log('Sending update to DB');
+      console.log(update);
+
+      Firebase.database()
+        .ref('matches/' + this.match.id)
+        .update(update);
     },
   },
 });
