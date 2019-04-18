@@ -22,21 +22,21 @@ import Vue from 'vue';
 export default Vue.extend({
   data() {
     return {
-      match: this.$store.state.match,
+      state: this.$store.state,
     };
   },
   computed: {
     redTeam(): string {
-      return `${this.match.red.striker} & ${this.match.red.defender}`;
+      return `${this.state.match.red.striker} & ${this.state.match.red.defender}`;
     },
     redScore(): number {
-      return this.match.red.score;
+      return this.state.match.red.score;
     },
     blueTeam(): string {
-      return `${this.match.blue.striker} & ${this.match.blue.defender}`;
+      return `${this.state.match.blue.striker} & ${this.state.match.blue.defender}`;
     },
     blueScore(): number {
-      return this.match.blue.score;
+      return this.state.match.blue.score;
     },
   },
 });

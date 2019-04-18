@@ -11,7 +11,7 @@
                 <tbody>
                     <tr :class="{positive: item.isPositive, negative: !item.isPositive}"
                         :key="item.time"
-                        v-for="item in match.history">
+                        v-for="item in history">
                         <td>
                             <h4 class="ui image header" v-bind:class="{red: item.isRed, blue: !item.isRed}">
                                 <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg" class="ui mini rounded image">
@@ -41,9 +41,6 @@
                     </tr>
                 </tbody>
             </table>
-            <pre>
-            {{ JSON.stringify(match, null, 2) }}
-            </pre>
         </div>
 </template>
 
@@ -52,8 +49,13 @@ import Vue from 'vue';
 export default Vue.extend({
   data() {
     return {
-        match: this.$store.state.match,
+        state: this.$store.state,
     };
+  },
+  computed: {
+      history(): any {
+        return this.state.match.history;
+      },
   },
 });
 </script>

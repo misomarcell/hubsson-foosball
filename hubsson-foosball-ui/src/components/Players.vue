@@ -69,8 +69,13 @@ import { Event } from '../models/event';
 export default Vue.extend({
   data() {
     return {
-      match: this.$store.state.match,
+      state: this.$store.state,
     };
+  },
+  computed: {
+      match(): any {
+        return this.state.match;
+      },
   },
   methods: {
     async score(player: string) {
@@ -89,12 +94,8 @@ export default Vue.extend({
         time: new Date(),
         type: 'goal',
       };
-      console.log('Current history');
-      console.log(this.match.history);
       update[`/${color}/score`] = this.match[color].score + 1;
       update['/history'] = this.match.history ? [ newEvent, ...this.match.history ] : [newEvent];
-      console.log('Sending update to DB');
-      console.log(update);
 
       Firebase.database()
         .ref('matches/' + this.match.id)
