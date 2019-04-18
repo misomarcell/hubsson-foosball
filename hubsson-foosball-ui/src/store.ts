@@ -10,9 +10,20 @@ export default new Vuex.Store({
     match: undefined,
   } as AppState,
   getters: {
-    functionsHost(state, getters) {
-      // return 'https://hubsson-foosball-functions.azurewebsites.net';
-      return 'http://localhost:7071';
+    match(state, getters) {
+      return state.match;
+    },
+    redScore(state, getters) {
+      return getters.match.red.score;
+    },
+    blueScore(state, getters) {
+      return getters.match.blue.score;
+    },
+    blueStriker(state, getters) {
+      return getters.match.blue.striker;
+    },
+    blueDefender(state, getters) {
+      return getters.match.blue.defender;
     },
   },
   mutations: {

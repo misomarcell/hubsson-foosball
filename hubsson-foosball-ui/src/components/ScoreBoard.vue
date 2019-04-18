@@ -30,13 +30,13 @@ export default Vue.extend({
       return `${this.state.match.red.striker} & ${this.state.match.red.defender}`;
     },
     redScore(): number {
-      return this.state.match.red.score;
+      return this.$store.getters.redScore;
     },
     blueTeam(): string {
-      return `${this.state.match.blue.striker} & ${this.state.match.blue.defender}`;
+      return `${this.$store.getters.blueStriker} & ${this.$store.getters.blueDefender}`;
     },
     blueScore(): number {
-      return this.state.match.blue.score;
+      return this.$store.getters.blueScore;
     },
   },
 });
