@@ -1,9 +1,7 @@
 <template>
   <div
     id="score-card"
-    class="ui clearing red segment"
-    style="width: 600px; margin: auto; margin-top: 30px;"
-  >
+    class="ui clearing red segment">
     <h3 class="ui right floated blue header">
       Blue Team
       <div class="sub header">{{ blueTeam }}</div>

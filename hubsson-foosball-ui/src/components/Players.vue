@@ -1,5 +1,5 @@
 <template>
-  <div id="players-card" class="ui segment" style="width: 600px; margin: auto; margin-top: 10px;">
+  <div id="players-card" class="ui segment">
     <div class="ui two column grid">
       <div class="row">
         <div class="column">

@@ -1,14 +1,20 @@
 <template>
-  <div id="app">
+  <div>
     <div v-if="$store.state.match">
       <scoreBoard></scoreBoard>
       <players></players>
       <history></history>
     </div>
 
-    <div v-else>Start new match</div>
-    <button id="startButton" @click="startGame" :disabled="hasActiveMatch">Start game</button>
-    <button id="endButton" @click="endGame" :disabled="!hasActiveMatch">End game</button>
+    <button id="startButton"
+      class="ui icon button massive positive"
+      @click="startGame" v-if="!hasActiveMatch">Start game</button>
+    <button id="endButton"
+      class="circular ui icon button massive negative"
+      @click="endGame"
+      v-if="hasActiveMatch">
+      <i class="close icon"></i>
+    </button>
   </div>
 </template>
 
@@ -101,3 +107,10 @@ export default Vue.extend({
   },
 });
 </script>
+<style scoped>
+  #endButton {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+  }
+</style>
