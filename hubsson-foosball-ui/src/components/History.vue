@@ -57,7 +57,7 @@ export default Vue.extend({
   methods: {
     getPlayerColor(name: string): string {
       return this.state.match.red.striker === name ||
-        this.state.match.red.defender
+        this.state.match.red.defender === name
         ? "red"
         : "blue";
     }
