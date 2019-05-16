@@ -1,4 +1,4 @@
-import { Match } from "./match";
+import { Match } from './match';
 
 export interface AppState {
   match?: Match;

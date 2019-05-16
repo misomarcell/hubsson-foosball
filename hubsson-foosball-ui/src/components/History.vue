@@ -11,7 +11,7 @@
       <tbody>
         <tr :key="item.time" v-for="item in history">
           <td>
-            <h4 class="ui image header" v-bind:class="{red: item.isRed, blue: !item.isRed}">
+            <h4 class="ui image header" v-bind:class="[ getPlayerColor(item.player) ]">
               <img
                 src="https://semantic-ui.com/images/avatar/small/elliot.jpg"
                 class="ui mini rounded image"
@@ -42,26 +42,26 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue';
 export default Vue.extend({
   data() {
     return {
-      state: this.$store.state
+      state: this.$store.state,
     };
   },
   computed: {
     history(): any {
       return this.state.match.history;
-    }
+    },
   },
   methods: {
     getPlayerColor(name: string): string {
       return this.state.match.red.striker === name ||
         this.state.match.red.defender === name
-        ? "red"
-        : "blue";
-    }
-  }
+        ? 'red'
+        : 'blue';
+    },
+  },
 });
 </script>
 <style scoped>
