@@ -8,27 +8,24 @@
         <a class="ui red circular label">2</a>
       </a>
       <div class="right menu">
-        <a class="ui red item" @click="$refs.modal.toggle()">Logout</a>
+        <a class="ui red item">Logout</a>
       </div>
     </div>
     <main>
       <router-view/>
     </main>
-    <modal :message="'MyMessage'" ref="modal" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import Modal from './components/Modal.vue';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 export default Vue.extend({
-  components: { Modal },
   data() {
     return {
-      msg: '',
+      msg: ""
     };
-  },
+  }
 });
 </script>
 
