@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr :key="item.time" v-for="item in history">
+        <tr :key="item.time" v-for="(item, index) in history">
           <td>
             <h4 class="ui image header" v-bind:class="[ getPlayerColor(item.player) ]">
               <img
@@ -31,7 +31,7 @@
             <button class="ui icon blue button" data-tooltip="Change to own-goal">
               <i class="icon exchange"></i>
             </button>
-            <button class="ui icon red button" data-tooltip="Remove">
+            <button class="ui icon red button" @click="remove(index)" data-tooltip="Remove">
               <i class="icon trash alternate"></i>
             </button>
           </td>
@@ -43,6 +43,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import Firebase from 'firebase';
+import { Event } from '../models/event';
+
 export default Vue.extend({
   data() {
     return {
@@ -61,6 +64,19 @@ export default Vue.extend({
         ? 'red'
         : 'blue';
     },
+    remove(index: number) {
+      const update = {} as any;
+      const event: Event = this.state.match.history[index];
+      const color = this.getPlayerColor(event.player);
+      if(event.type === 'goal') {
+        update[`/${color}/score`] = this.state.match[color].score - 1;
+      }
+      update['/history'] = this.state.match.history.filter(e => e !== event);
+
+      Firebase.database()
+        .ref('matches/' + this.state.match.id)
+        .update(update);
+    }
   },
 });
 </script>
