@@ -13,11 +13,15 @@ export default new Vuex.Store({
     match(state, getters) {
       return state.match;
     },
-    redScore(state, getters) {
-      return getters.match.red.score;
+    redScore(state, getters): number {
+      return state.match!.history!.filter((h) =>
+        h.type === 'goal' && getColorByPlayer(h.player, state.match!) === 'red' ||
+        h.type === 'owngoal' && getColorByPlayer(h.player, state.match!) === 'blue').length;
     },
-    blueScore(state, getters) {
-      return getters.match.blue.score;
+    blueScore(state, getters): number {
+      return state.match!.history!.filter((h) =>
+        h.type === 'goal' && getColorByPlayer(h.player, state.match!) === 'blue' ||
+        h.type === 'owngoal' && getColorByPlayer(h.player, state.match!) === 'red').length;
     },
     blueStriker(state, getters) {
       return getters.match.blue.striker;
@@ -45,3 +49,10 @@ export default new Vuex.Store({
   },
   actions: {},
 });
+
+function getColorByPlayer(player: string, match: Match): string {
+  return match.red.striker === player ||
+    match.red.defender === player
+    ? 'red'
+    : 'blue';
+}

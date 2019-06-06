@@ -94,7 +94,7 @@ export default Vue.extend({
         time: new Date(),
         type: 'goal',
       };
-      update[`/${color}/score`] = this.match[color].score + 1;
+      
       update['/history'] = this.match.history ? [ newEvent, ...this.match.history ] : [newEvent];
 
       Firebase.database()

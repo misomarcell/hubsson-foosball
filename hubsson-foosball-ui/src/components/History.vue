@@ -68,9 +68,7 @@ export default Vue.extend({
       const update = {} as any;
       const event: Event = this.state.match.history[index];
       const color = this.getPlayerColor(event.player);
-      if(event.type === 'goal') {
-        update[`/${color}/score`] = this.state.match[color].score - 1;
-      }
+
       update['/history'] = this.state.match.history.filter(e => e !== event);
 
       Firebase.database()
