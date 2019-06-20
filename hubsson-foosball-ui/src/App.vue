@@ -13,6 +13,7 @@
         </div>
       </div>
       <main>
+        <router-view/>
       </main>
     </div>
   </div>
