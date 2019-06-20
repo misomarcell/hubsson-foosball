@@ -1,19 +1,20 @@
 <template>
-  <div id="app">
-    <div class="ui secondary menu">
-      <a class="active item">Game</a>
-      <a class="item">Statistics</a>
-      <a class="item">
-        Reservations
-        <a class="ui red circular label">2</a>
-      </a>
-      <div class="right menu">
-        <a class="ui red item">Logout</a>
+  <div class="ui one column fluid center aligned grid" id="app">
+    <div class="ui ten wide column">
+      <div class="ui secondary menu">
+        <a class="active item">Game</a>
+        <a class="item">Statistics</a>
+        <a class="item">
+          Reservations
+          <a class="ui red circular label">2</a>
+        </a>
+        <div class="right menu">
+          <a class="ui red item">Logout</a>
+        </div>
       </div>
+      <main>
+      </main>
     </div>
-    <main>
-      <router-view/>
-    </main>
   </div>
 </template>
 
@@ -36,7 +37,6 @@ export default Vue.extend({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  width: 600px;
   margin: auto;
 }
 #nav {

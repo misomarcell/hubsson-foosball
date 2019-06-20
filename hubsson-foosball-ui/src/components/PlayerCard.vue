@@ -1,13 +1,13 @@
 <template>
-  <div class="card">
+  <div class="ui card">
     <div class="content">
       <img
         class="mini ui left floated image"
         src="https://semantic-ui.com/images/avatar2/large/molly.png"
       >
       <div class="ui">
-        <span class="left floated">
-          <b>Elliot Fu</b>
+        <span class="ui left floated">
+          <h4 v-bind:class="['ui', 'header', getColorByPlayer()]">{{ player }}</h4>
         </span>
         <a class="ui right floated label">
           <i class="futbol icon"></i> 23
@@ -15,14 +15,37 @@
       </div>
     </div>
     <div class="extra content">
-      <button style="width: 44%" class="ui left floated inverted red button">Own-Goal</button>
-      <button style="width: 44%" class="ui right floated positive button">GOAL</button>
+      <button
+        style="width: 44%"
+        class="ui left floated inverted red button"
+        @click.native="$emit('own-goal')"
+      >Own-Goal</button>
+      <button
+        style="width: 44%"
+        class="ui right floated positive button"
+        @click.native="$emit('goal')"
+      >GOAL</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import Vue from "vue";
+import { getColorByPlayer } from "../store";
+export default Vue.extend({
+  props: {
+    player: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    getColorByPlayer() {
+      return getColorByPlayer(this.player, this.$store.state.match);
+    }
+  },
+  output: {}
+});
 </script>
 
 <style>

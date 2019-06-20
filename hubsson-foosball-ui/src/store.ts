@@ -58,7 +58,7 @@ export default new Vuex.Store({
   actions: {}
 });
 
-function getColorByPlayer(player: string, match: Match): string {
+export function getColorByPlayer(player: string, match: Match): string {
   return match.red.striker === player || match.red.defender === player
     ? "red"
     : "blue";

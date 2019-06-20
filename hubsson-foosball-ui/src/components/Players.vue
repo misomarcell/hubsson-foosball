@@ -3,15 +3,15 @@
     <div class="ui two column grid">
       <div class="row">
         <div class="ui cards">
-          <player-card></player-card>
-          <player-card></player-card>
+          <player-card :player="match.red.defender" @goal="score(match.red.defender)"></player-card>
+          <player-card :player="match.blue.defender" @goal="score(match.blue.defender)"></player-card>
         </div>
       </div>
 
       <div class="row">
         <div class="ui cards">
-          <player-card></player-card>
-          <player-card></player-card>
+          <player-card :player="match.red.striker" @goal="score(match.red.striker)"></player-card>
+          <player-card :player="match.blue.striker" @goal="score(match.blue.striker)"></player-card>
         </div>
       </div>
     </div>
@@ -42,6 +42,7 @@ export default Vue.extend({
   },
   methods: {
     async score(player: string) {
+      console.log("MEGHÍVÓDIK A SCORE");
       let color = "";
       if (
         player === this.match.red.striker ||
