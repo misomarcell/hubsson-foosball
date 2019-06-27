@@ -3,6 +3,7 @@
     <div v-if="$store.state.match">
       <scoreBoard></scoreBoard>
       <players></players>
+      <player-selector></player-selector>
       <history></history>
     </div>
 
@@ -35,10 +36,12 @@
 import Vue from "vue";
 import ScoreBoard from "@/components/ScoreBoard.vue";
 import Players from "@/components/Players.vue";
+import PlayerSelector from "@/components/PlayerSelector.vue";
 import History from "@/components/History.vue";
 import Firebase from "firebase";
 import { Match } from "../models/Match";
 import Modal from "../components/Modal.vue";
+import PlayerSelectorVue from "../components/PlayerSelector.vue";
 
 const app = Firebase.initializeApp({
   apiKey: "AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo",
@@ -53,6 +56,7 @@ export default Vue.extend({
   components: {
     scoreBoard: ScoreBoard,
     players: Players,
+    playerSelector: PlayerSelector,
     history: History,
     modal: Modal
   },
