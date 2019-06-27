@@ -9,7 +9,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr :key="item.time" v-for="(item, index) in history">
+        <tr
+          :key="item.time"
+          v-for="(item, index) in history"
+          :class="{ negative: item.type == 'owngoal' }"
+        >
           <td>
             <h4 class="ui image header" v-bind:class="[ getPlayerColor(item.player) ]">
               <img

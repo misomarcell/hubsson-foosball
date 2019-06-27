@@ -3,15 +3,15 @@
     <div class="ui two column grid">
       <div class="row">
         <div class="ui cards">
-          <player-card :player="match.red.defender" @goal="score(match.red.defender)"></player-card>
-          <player-card :player="match.blue.defender" @goal="score(match.blue.defender)"></player-card>
+          <player-card :player="match.red.defender" @goal="score"></player-card>
+          <player-card :player="match.blue.defender" @goal="score"></player-card>
         </div>
       </div>
 
       <div class="row">
         <div class="ui cards">
-          <player-card :player="match.red.striker" @goal="score(match.red.striker)"></player-card>
-          <player-card :player="match.blue.striker" @goal="score(match.blue.striker)"></player-card>
+          <player-card :player="match.red.striker" @goal="score"></player-card>
+          <player-card :player="match.blue.striker" @goal="score"></player-card>
         </div>
       </div>
     </div>
@@ -41,33 +41,27 @@ export default Vue.extend({
     }
   },
   methods: {
-    async score(player: string) {
-      console.log("MEGHÍVÓDIK A SCORE");
+    async score(event: Event) {
       let color = "";
       if (
-        player === this.match.red.striker ||
-        player === this.match.red.defender
+        event.player === this.match.red.striker ||
+        event.player === this.match.red.defender
       ) {
         color = "red";
       } else if (
-        player === this.match.blue.striker ||
-        player === this.match.blue.defender
+        event.player === this.match.blue.striker ||
+        event.player === this.match.blue.defender
       ) {
         color = "blue";
       } else {
-        console.error("Cannot determine team for " + player);
+        console.error("Cannot determine team for " + event.player);
       }
 
       const update = {} as any;
-      const newEvent: Event = {
-        player,
-        time: new Date(),
-        type: "goal"
-      };
 
       update["/history"] = this.match.history
-        ? [newEvent, ...this.match.history]
-        : [newEvent];
+        ? [event, ...this.match.history]
+        : [event];
 
       Firebase.database()
         .ref("matches/" + this.match.id)

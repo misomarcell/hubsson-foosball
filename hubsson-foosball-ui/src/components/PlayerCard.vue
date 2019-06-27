@@ -18,12 +18,12 @@
       <button
         style="width: 44%"
         class="ui left floated inverted red button"
-        @click.native="$emit('own-goal')"
+        @click="$emit('goal', { 'time': new Date(), 'type': 'owngoal', 'player': player })"
       >Own-Goal</button>
       <button
         style="width: 44%"
         class="ui right floated positive button"
-        @click.native="$emit('goal')"
+        @click="$emit('goal', { 'time': new Date(), 'type': 'goal', 'player': player })"
       >GOAL</button>
     </div>
   </div>
