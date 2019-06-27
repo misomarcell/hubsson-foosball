@@ -1,5 +1,5 @@
 <template>
-  <div class="ui card">
+  <div class="ui fluid card">
     <div class="content">
       <img
         class="mini ui left floated image"

@@ -1,18 +1,15 @@
 <template>
-  <div id="players-card" class="ui segment">
-    <div class="ui two column grid">
-      <div class="row">
-        <div class="ui cards">
-          <player-card :player="match.red.defender" @goal="score"></player-card>
-          <player-card :player="match.blue.defender" @goal="score"></player-card>
-        </div>
+  <div id="players-card" class="ui sixteen column grid segment">
+    <div class="ui eight wide column">
+      <div class="ui cards">
+        <player-card :player="match.red.defender" @goal="score"></player-card>
+        <player-card :player="match.blue.defender" @goal="score"></player-card>
       </div>
-
-      <div class="row">
-        <div class="ui cards">
-          <player-card :player="match.red.striker" @goal="score"></player-card>
-          <player-card :player="match.blue.striker" @goal="score"></player-card>
-        </div>
+    </div>
+    <div class="ui eight wide column">
+      <div class="ui cards">
+        <player-card :player="match.red.striker" @goal="score"></player-card>
+        <player-card :player="match.blue.striker" @goal="score"></player-card>
       </div>
     </div>
   </div>
