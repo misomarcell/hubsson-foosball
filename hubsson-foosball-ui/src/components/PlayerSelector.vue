@@ -18,17 +18,16 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import moment from "moment";
-import { database } from "../services/database";
-import Firebase from "firebase";
-import { Event } from "../models/event";
-import PlayerCard from "../components/PlayerCard";
+import Vue from 'vue';
+import moment from 'moment';
+import { database } from '../services/database';
+import Firebase from 'firebase';
+import { Event } from '../models/event';
+import PlayerCard from '../components/PlayerCard';
 
 export default Vue.extend({
   mounted() {
-    console.log(this.$refs["player-selector-dropdown"]);
-    $(this.$refs["player-selector-dropdown"]).dropdown({});
+    $(this.$refs['player-selector-dropdown']).dropdown({});
   }
 });
 </script>

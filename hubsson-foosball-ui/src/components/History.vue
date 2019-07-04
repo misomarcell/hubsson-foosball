@@ -46,9 +46,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Firebase from "firebase";
-import { Event } from "../models/event";
+import Vue from 'vue';
+import Firebase from 'firebase';
+import { Event } from '../models/event';
 
 export default Vue.extend({
   data() {
@@ -65,18 +65,18 @@ export default Vue.extend({
     getPlayerColor(name: string): string {
       return this.state.match.red.striker === name ||
         this.state.match.red.defender === name
-        ? "red"
-        : "blue";
+        ? 'red'
+        : 'blue';
     },
     remove(index: number) {
       const update = {} as any;
       const event: Event = this.state.match.history[index];
       const color = this.getPlayerColor(event.player);
 
-      update["/history"] = this.state.match.history.filter(e => e !== event);
+      update['/history'] = this.state.match.history.filter((e) => e !== event);
 
       Firebase.database()
-        .ref("matches/" + this.state.match.id)
+        .ref('matches/' + this.state.match.id)
         .update(update);
     }
   }

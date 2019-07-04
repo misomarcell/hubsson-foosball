@@ -1,5 +1,5 @@
 <template>
-  <div class="ui fluid card">
+  <div cl;ass="ui fluid card";>
     <div class="content">
       <img
         class="mini ui left floated image"
@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import Vue from "vue";
-import { getColorByPlayer } from "../store";
+import Vue from 'vue';
+import { getColorByPlayer } from '../store';
 export default Vue.extend({
   props: {
     player: {

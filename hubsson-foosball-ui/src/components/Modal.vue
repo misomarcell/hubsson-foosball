@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue';
 export default Vue.extend({
   props: {
     message: {
@@ -23,7 +23,7 @@ export default Vue.extend({
     },
     title: {
       type: String,
-      default: "Are you sure?"
+      default: 'Are you sure?'
     },
     negativeOption: {
       type: String,
@@ -33,7 +33,7 @@ export default Vue.extend({
     positiveOption: {
       type: String,
       required: false,
-      default: "OK"
+      default: 'OK'
     }
   },
   data() {

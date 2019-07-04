@@ -1,7 +1,7 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import { AppState } from "./models/app-state";
-import { Match } from "./models/match";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { AppState } from './models/app-state';
+import { Match } from './models/match';
 
 Vue.use(Vuex);
 
@@ -15,20 +15,20 @@ export default new Vuex.Store({
     },
     redScore(state, getters): number {
       return state.match!.history!.filter(
-        h =>
-          (h.type === "goal" &&
-            getColorByPlayer(h.player, state.match!) === "red") ||
-          (h.type === "owngoal" &&
-            getColorByPlayer(h.player, state.match!) === "blue")
+        (h) =>
+          (h.type === 'goal' &&
+            getColorByPlayer(h.player, state.match!) === 'red') ||
+          (h.type === 'owngoal' &&
+            getColorByPlayer(h.player, state.match!) === 'blue')
       ).length;
     },
     blueScore(state, getters): number {
       return state.match!.history!.filter(
-        h =>
-          (h.type === "goal" &&
-            getColorByPlayer(h.player, state.match!) === "blue") ||
-          (h.type === "owngoal" &&
-            getColorByPlayer(h.player, state.match!) === "red")
+        (h) =>
+          (h.type === 'goal' &&
+            getColorByPlayer(h.player, state.match!) === 'blue') ||
+          (h.type === 'owngoal' &&
+            getColorByPlayer(h.player, state.match!) === 'red')
       ).length;
     },
     blueStriker(state, getters) {
@@ -44,7 +44,7 @@ export default new Vuex.Store({
       {
         scoringTeam,
         player
-      }: { scoringTeam: keyof Pick<Match, "blue" | "red">; player: string }
+      }: { scoringTeam: keyof Pick<Match, 'blue' | 'red'>; player: string }
     ) {
       state.match![scoringTeam].score++;
     },
@@ -60,6 +60,6 @@ export default new Vuex.Store({
 
 export function getColorByPlayer(player: string, match: Match): string {
   return match.red.striker === player || match.red.defender === player
-    ? "red"
-    : "blue";
+    ? 'red'
+    : 'blue';
 }
