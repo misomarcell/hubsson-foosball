@@ -8,8 +8,28 @@
               <sui-dropdown placeholder="Select player to add..." selection fluid search :options='users' v-model='selectedUser'></sui-dropdown>
             </div>
           </div>
-          <div class="extra content">
-            <div class="ui basic fluid green button">Add</div>
+        </div>
+        <div class="ui fluid card">
+          <div class="content">
+            <div class="ui">
+              <sui-dropdown placeholder="Select player to add..." selection fluid search :options='users' v-model='selectedUser'></sui-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="ui eight wide column">
+          <div class="ui fluid card">
+            <div class="content">
+              <div class="ui">
+                <sui-dropdown placeholder="Select player to add..." selection fluid search :options='users' v-model='selectedUser'></sui-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="ui fluid card">
+            <div class="content">
+              <div class="ui">
+                <sui-dropdown placeholder="Select player to add..." selection fluid search :options='users' v-model='selectedUser'></sui-dropdown>
+              </div>
+            </div>
           </div>
         </div>
       </div>
