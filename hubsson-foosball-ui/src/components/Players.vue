@@ -21,7 +21,7 @@ import moment from 'moment';
 import { database } from '../services/database';
 import Firebase from 'firebase';
 import { Event } from '../models/event';
-import PlayerCard from '../components/PlayerCard';
+import PlayerCard from '../components/PlayerCard.vue';
 
 export default Vue.extend({
   data() {
@@ -51,7 +51,7 @@ export default Vue.extend({
       ) {
         color = 'blue';
       } else {
-        console.error('Cannot determine team for ' + event.player);
+        alert('Cannot determine team for ' + event.player);
       }
 
       const update = {} as any;

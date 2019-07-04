@@ -1,10 +1,14 @@
 <template>
   <div>
-    <div v-if="$store.state.match">
+    <div v-if="hasActiveMatch">
       <scoreBoard></scoreBoard>
       <players></players>
       <player-selector></player-selector>
       <history></history>
+    </div>
+    <div v-else>
+      <player-selector></player-selector>
+      <player-selector></player-selector>
     </div>
 
     <button

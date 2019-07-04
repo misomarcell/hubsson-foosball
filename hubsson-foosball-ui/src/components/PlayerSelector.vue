@@ -5,7 +5,7 @@
         <div class="ui fluid card">
           <div class="content">
             <div class="ui">
-              <sui-dropdown placeholder="Select player to add..." selection fluid search></sui-dropdown>
+              <sui-dropdown placeholder="Select player to add..." selection fluid search :options='users' v-model='selectedUser'></sui-dropdown>
             </div>
           </div>
           <div class="extra content">
@@ -23,11 +23,22 @@ import moment from 'moment';
 import { database } from '../services/database';
 import Firebase from 'firebase';
 import { Event } from '../models/event';
-import PlayerCard from '../components/PlayerCard';
+import PlayerCard from '../components/PlayerCard.vue';
 
 export default Vue.extend({
+  data() {
+    return {
+      users: [
+        { text: 'Zoli',  value: 'Zoli' },
+        { text: 'Ezékiel',  value: 'Ezékiel' },
+        { text: 'Gábor',  value: 'Gábor' },
+        { text: 'Józsi',  value: 'Józsi' }
+      ],
+      selectedUser: undefined
+    };
+  },
   mounted() {
-    $(this.$refs['player-selector-dropdown']).dropdown({});
+    // $(this.$refs['player-selector-dropdown']).dropdown({});
   }
 });
 </script>
