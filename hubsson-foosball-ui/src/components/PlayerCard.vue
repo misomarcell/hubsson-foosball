@@ -4,7 +4,7 @@
       <img
         class="mini ui left floated image"
         src="https://semantic-ui.com/images/avatar2/large/molly.png"
-      >
+      />
       <div class="ui">
         <span class="ui left floated">
           <h4 v-bind:class="['ui', 'header', getColorByPlayer()]">{{ player }}</h4>
