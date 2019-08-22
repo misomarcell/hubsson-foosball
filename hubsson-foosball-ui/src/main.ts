@@ -14,8 +14,3 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
-
-if (!firebase.auth().currentUser) {
-  // TODO request auth
-  
-}
