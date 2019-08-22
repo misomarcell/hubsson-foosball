@@ -31,6 +31,9 @@
       @positive="endGaneConfirm()"
       ref="modal"
     />
+
+    <div id="firebaseui-auth-container"></div>
+
   </div>
 </template>
 
@@ -44,6 +47,7 @@ import Firebase from "firebase";
 import { Match } from "../models/Match";
 import Modal from "../components/Modal.vue";
 import PlayerSelectorVue from "../components/PlayerSelector.vue";
+import firebaseui from 'firebaseui';
 
 const app = Firebase.initializeApp({
   apiKey: "AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo",
@@ -53,6 +57,15 @@ const app = Firebase.initializeApp({
   storageBucket: "hubsson-foosball-eur3.appspot.com",
   messagingSenderId: "978313456818"
 });
+
+console.log(firebaseui);
+const ui = new firebaseui.auth.AuthUI(Firebase.auth());
+// ui.start('#firebaseui-auth-container', {
+//   signInOptions: [
+//     Firebase.auth.GoogleAuthProvider.PROVIDER_ID
+//   ],
+//   // Other config options...
+// });
 
 export default Vue.extend({
   components: {

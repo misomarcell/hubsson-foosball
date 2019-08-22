@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "firebase": "^5.8.2",
+    "firebaseui": "^4.1.0",
     "moment": "^2.22.2",
     "semantic-ui-vue": "^0.8.1",
     "vue": "^2.5.17",
