@@ -1,5 +1,5 @@
-import { Match } from "./match";
-import { Team } from "./team";
+import { Match } from './match';
+import { Team } from './team';
 
 export interface AppState {
   match?: Match;
