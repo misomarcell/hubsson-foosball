@@ -47,7 +47,7 @@ import Firebase from 'firebase';
 import { Match } from '../models/Match';
 import Modal from '../components/Modal.vue';
 import PlayerSelectorVue from '../components/PlayerSelector.vue';
-import firebaseui from 'firebaseui';
+// import * from 'firebaseui';
 
 const app = Firebase.initializeApp({
   apiKey: 'AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo',
@@ -58,7 +58,7 @@ const app = Firebase.initializeApp({
   messagingSenderId: '978313456818'
 });
 
-const ui = new firebaseui.auth.AuthUI(Firebase.auth());
+// const ui = new firebaseui.auth.AuthUI(Firebase.auth());
 // ui.start('#firebaseui-auth-container', {
 //   signInOptions: [
 //     Firebase.auth.GoogleAuthProvider.PROVIDER_ID
