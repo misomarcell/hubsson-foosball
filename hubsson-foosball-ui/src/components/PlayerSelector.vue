@@ -13,6 +13,7 @@
                 search
                 :options="users"
                 v-model="$store.state.newTeams.red.defender"
+                test-id="player-selection-red-defender"
               ></sui-dropdown>
             </div>
           </div>
