@@ -13,7 +13,7 @@
                 search
                 :options="users"
                 v-model="$store.state.newTeams.red.defender"
-                test-id="player-selection-red-defender"
+                test-id="player-select-red-defender"
               ></sui-dropdown>
             </div>
           </div>
@@ -29,6 +29,7 @@
                 search
                 :options="users"
                 v-model="$store.state.newTeams.red.striker"
+                test-id="player-select-red-striker"
               ></sui-dropdown>
             </div>
           </div>
@@ -49,6 +50,7 @@
                 search
                 :options="users"
                 v-model="$store.state.newTeams.blue.defender"
+                test-id="player-select-blue-defender"
               ></sui-dropdown>
             </div>
           </div>
@@ -64,6 +66,7 @@
                 search
                 :options="users"
                 v-model="$store.state.newTeams.blue.striker"
+                test-id="player-select-blue-striker"
               ></sui-dropdown>
             </div>
           </div>

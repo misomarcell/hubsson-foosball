@@ -13,19 +13,17 @@ describe('PlayerSelector', () => {
   it('', ()=> {
     cy.visit('/');
 
-
-    cy.get(`[test-id="player-selection-red-defender"] input`).first().type('Z')
-    .get('.Select-option:contains(Zoli)')
-    .click();
+    selectElement('player-select-red-defender', 'Zoli');
+    selectElement('player-select-red-striker', 'Gábor');
+    selectElement('player-select-blue-defender', 'Ezékiel');
+    selectElement('player-select-blue-striker', 'Józsi');
     
-    return;
-    const element1 = cy.get('[test-id="player-selection-red-defender"]').first();
-    const element2 = cy.get('[test-id="player-selection-red-defender"]>input');
-    element1.click();
-    element2.type('Zoli');
-    element2.submit();
-
-
   })
+
+  function selectElement(testId, selectedItem) {
+    const element = cy.get(`[test-id="${testId}"]`);
+    element.children(`input`).click({force: true}).type(selectedItem);
+    element.parent().find('[role="option"]').contains(selectedItem).click({force: true});
+  }
 
 })
