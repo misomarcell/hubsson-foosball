@@ -10,11 +10,12 @@
   },
   "hosting": {
     "public": "public",
+    "redirects": [],
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ] 
   },
   "storage": {
     "rules": "storage.rules"
@@ -22,5 +23,10 @@
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
+  },
+  "emulators": {
+    "firestore": {
+      "port": 8081
+    }
   }
 }
