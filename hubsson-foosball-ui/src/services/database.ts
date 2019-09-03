@@ -6,7 +6,7 @@ Firebase.initializeApp({
   databaseURL: 'https://hubsson-foosball-eur3.firebaseio.com',
   projectId: 'hubsson-foosball-eur3',
   storageBucket: 'hubsson-foosball-eur3.appspot.com',
-  messagingSenderId: '978313456818',
+  messagingSenderId: '978313456818'
 });
 
 export const database = Firebase.database();
