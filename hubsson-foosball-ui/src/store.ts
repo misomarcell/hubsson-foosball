@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    currentUser: undefined,
     match: undefined,
     newTeams: {
       blue: {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     }
   } as AppState,
   getters: {
+    currentUser(state) {
+      return state.currentUser;
+    },
     match(state, getters) {
       return state.match;
     },
@@ -50,6 +54,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setUser(state: AppState, user: string) {
+      state.currentUser = user;
+    },
     setMatch(state: AppState, match: Match | undefined) {
       state.match = match;
       if (state.match && !state.match.history) {

@@ -9,23 +9,23 @@
           <a class="ui red circular label">2</a>
         </a>
         <div class="right menu">
-          <a class="ui red item">Logout</a>
+          <a class="ui red item">({{$store.getters.currentUser}}) Logout</a>
         </div>
       </div>
       <main>
-        <router-view/>
+        <router-view />
       </main>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 export default Vue.extend({
   data() {
     return {
-      msg: ''
+      msg: ""
     };
   }
 });
