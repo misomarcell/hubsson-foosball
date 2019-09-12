@@ -9,7 +9,7 @@
           <a class="ui red circular label">2</a>
         </a>
         <div class="right menu">
-          <a class="ui red item">({{$store.getters.currentUser}}) Logout</a>
+          <a @click="logOut" class="ui red item">({{$store.getters.currentUser}}) Logout</a>
         </div>
       </div>
       <main>
@@ -21,12 +21,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import Firebase from "firebase";
 
 export default Vue.extend({
   data() {
     return {
       msg: ""
     };
+  },
+  methods: {
+    logOut() {
+      Firebase.auth().signOut();
+    }
   }
 });
 </script>

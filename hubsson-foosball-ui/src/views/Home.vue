@@ -46,7 +46,6 @@ import Firebase from "firebase";
 import { Match } from "../models/Match";
 import Modal from "../components/Modal.vue";
 import PlayerSelectorVue from "../components/PlayerSelector.vue";
-import * as Firebaseui from "firebaseui";
 
 const app = Firebase.initializeApp({
   apiKey: "AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo",
@@ -74,15 +73,15 @@ export default Vue.extend({
     };
   },
   mounted() {
-    if (!this.$store.getters.currentUser) {
-      const ui = new Firebaseui.auth.AuthUI(
-        Firebase.auth().signInWithPopup(new Firebase.auth.GoogleAuthProvider())
-      );
-      ui.start("#firebaseui-auth-container", {
-        signInSuccessUrl: "http://localhost:8080",
-        signInOptions: [Firebase.auth.GoogleAuthProvider.PROVIDER_ID]
-      });
-    }
+    // TODO: Change this
+    Firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        const provider = new Firebase.auth.GoogleAuthProvider();
+        Firebase.auth().signInWithPopup(provider);
+      }
+
+      Firebase.auth().signOut;
+    });
 
     this.activeMatchRef.on("value", snapshot => {
       const activeMatch = snapshot!.val();
