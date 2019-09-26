@@ -21,36 +21,40 @@ export async function getMatchHistoryHandler(request: Request, response: Respons
 }
 
 export async function postMatchHistoryHandler(request: Request, response: Response) {
+    admin.database().ref("activeMatch").limitToFirst(1).once("value",
+        activeMatchSnapshot => {
+            const activeMatch = activeMatchSnapshot!.val();
+            if (!activeMatch || !activeMatch.matchId) {
+                return;
+            }
 
-    let currentMatch: any;
+            admin.database()
+                .ref(`matches/${activeMatch.matchId}`)
+                .limitToFirst(1)
+                .once("value", matchSnapshot => {
+                    const match = matchSnapshot.val();
+                    const update = {} as any;
 
-    await admin.database().ref("matches").limitToFirst(1).once("value",
-        match => {
-            currentMatch = match.val();
+                    const newScore = {
+                        player: request.body["buttonId"],
+                        time: new Date().toUTCString(),
+                        type: "goal"
+                    };
+
+                    update['/history'] = match[activeMatch.matchId].history
+                        ? [newScore, ...match[activeMatch.matchId].history]
+                        : [newScore];
+
+                    admin.database()
+                        .ref('matches/' + activeMatch.matchId)
+                        .update(
+                            update,
+                            result => {
+                                response.send(result);
+                            });
+                });
         },
         (error: any) => {
             response.send(error);
         });
-
-    const currentMatchId = Object.keys(currentMatch)[0];
-
-    const update = {} as any;
-
-    const newScore = {
-        player: request.body["buttonId"],
-        time: new Date().toUTCString(),
-        type: "goal"
-    };
-
-    update['/history'] = currentMatch[currentMatchId].history
-        ? [newScore, ...currentMatch[currentMatchId].history]
-        : [newScore];
-
-    await admin.database()
-        .ref('matches/' + currentMatchId)
-        .update(
-            update,
-            result => {
-                response.send(result);
-            });
 }
