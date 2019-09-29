@@ -10,51 +10,45 @@ admin.initializeApp({
     messagingSenderId: '978313456818'
 });
 
-export async function getMatchHistoryHandler(request: Request, response: Response) {
-    await admin.database().ref("matches").limitToFirst(1).once("value",
-        currentMatch => {
-            response.send(currentMatch.val());
-        },
-        (error: any) => {
+export function getMatchHistoryHandler(request: Request, response: Response) {
+    admin.database().ref("activeMatch").once("value")
+        .then(
+            currentMatch => {
+                response.send(currentMatch.val());
+            }
+        )
+        .catch((error: any) => {
             response.send(error);
         });
 }
 
-export async function postMatchHistoryHandler(request: Request, response: Response) {
-    admin.database().ref("activeMatch").limitToFirst(1).once("value",
-        activeMatchSnapshot => {
-            const activeMatch = activeMatchSnapshot!.val();
-            if (!activeMatch || !activeMatch.matchId) {
-                return;
+export function putMatchHistoryHandler(request: Request, response: Response) {
+    admin.database().ref("activeMatch")
+        .once("value")
+        .then(activeMatchResult => {
+            let activeMatchId = "";
+            try {
+                activeMatchId = activeMatchResult.val().matchId;
+            }
+            catch (e) {
+                throw e;
             }
 
+            const newScore = {
+                player: request.body["buttonId"],
+                time: new Date().toUTCString(),
+                type: request.body["action"]
+            };
+
             admin.database()
-                .ref(`matches/${activeMatch.matchId}`)
-                .limitToFirst(1)
-                .once("value", matchSnapshot => {
-                    const match = matchSnapshot.val();
-                    const update = {} as any;
-
-                    const newScore = {
-                        player: request.body["buttonId"],
-                        time: new Date().toUTCString(),
-                        type: "goal"
-                    };
-
-                    update['/history'] = match[activeMatch.matchId].history
-                        ? [newScore, ...match[activeMatch.matchId].history]
-                        : [newScore];
-
-                    admin.database()
-                        .ref('matches/' + activeMatch.matchId)
-                        .update(
-                            update,
-                            result => {
-                                response.send(result);
-                            });
-                });
-        },
-        (error: any) => {
+                .ref('matches/' + activeMatchId + "/history")
+                .push(newScore)
+                .then(result => {
+                    response.send(result);
+                })
+                .catch(error => { throw error });
+        })
+        .catch((error: any) => {
             response.send(error);
         });
 }
