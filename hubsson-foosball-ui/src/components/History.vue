@@ -11,7 +11,7 @@
       <tbody>
         <tr
           :key="item.time"
-          v-for="(item, index) in history"
+          v-for="(item, key) in history"
           :class="{ negative: item.type == 'owngoal' }"
         >
           <td>
@@ -19,14 +19,14 @@
               <img
                 src="https://semantic-ui.com/images/avatar/small/elliot.jpg"
                 class="ui mini rounded image"
-              >
+              />
               <div class="content">{{ item.player }}</div>
             </h4>
           </td>
           <td class="event">
             {{ item.type }}
-            <br>
-            <small>{{ item.time }}</small>
+            <br />
+            <small>{{ item.time | date }}</small>
           </td>
           <td class="collapsing">
             <button class="ui icon green button" data-tooltip="It was me">
@@ -35,7 +35,7 @@
             <button class="ui icon blue button" data-tooltip="Change to own-goal">
               <i class="icon exchange"></i>
             </button>
-            <button class="ui icon red button" @click="remove(index)" data-tooltip="Remove">
+            <button class="ui icon red button" @click="remove(key)" data-tooltip="Remove">
               <i class="icon trash alternate"></i>
             </button>
           </td>
@@ -46,9 +46,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Firebase from 'firebase';
-import { Event } from '../models/event';
+import Vue from "vue";
+import Firebase from "firebase";
+import { Event } from "../models/event";
 
 export default Vue.extend({
   data() {
@@ -65,19 +65,13 @@ export default Vue.extend({
     getPlayerColor(name: string): string {
       return this.state.match.red.striker === name ||
         this.state.match.red.defender === name
-        ? 'red'
-        : 'blue';
+        ? "red"
+        : "blue";
     },
-    remove(index: number) {
-      const update = {} as any;
-      const event: Event = this.state.match.history[index];
-      const color = this.getPlayerColor(event.player);
-
-      update['/history'] = this.state.match.history.filter((e) => e !== event);
-
+    remove(key: string) {
       Firebase.database()
-        .ref('matches/' + this.state.match.id)
-        .update(update);
+        .ref(`matches/${this.state.match.id}/history/${key}`)
+        .remove();
     }
   }
 });

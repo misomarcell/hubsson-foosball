@@ -18,12 +18,12 @@
       <button
         style="width: 44%"
         class="ui left floated inverted red button"
-        @click="$emit('goal', { 'time': new Date(), 'type': 'owngoal', 'player': player })"
+        @click="$emit('goal', { 'time': new Date().toISOString(), 'type': 'owngoal', 'player': player })"
       >Own-Goal</button>
       <button
         style="width: 44%"
         class="ui right floated positive button"
-        @click="$emit('goal', { 'time': new Date(), 'type': 'goal', 'player': player })"
+        @click="$emit('goal', { 'time': new Date().toISOString(), 'type': 'goal', 'player': player })"
       >GOAL</button>
     </div>
   </div>

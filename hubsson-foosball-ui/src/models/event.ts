@@ -1,5 +1,5 @@
 export interface Event {
-  time: Date;
+  time: string;
   type: 'goal' | 'owngoal' | 'swap';
   player: string;
 }

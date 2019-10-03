@@ -115,7 +115,7 @@ export default Vue.extend({
       const newMatchKey = matchesRef.push().key;
       const match = {
         id: newMatchKey,
-        startTime: "2019-01-01 01:01:01",
+        startTime: new Date().toISOString(),
         endTime: null,
         red: this.$store.state.newTeams.red,
         blue: this.$store.state.newTeams.blue,
@@ -130,7 +130,9 @@ export default Vue.extend({
         .set(match);
 
       this.activeMatchRef.set({
-        matchId: newMatchKey
+        matchId: newMatchKey,
+        red: this.$store.state.newTeams.red,
+        blue: this.$store.state.newTeams.blue
       });
     }
   }

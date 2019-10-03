@@ -6,5 +6,7 @@ export interface Match {
   startTime: Date;
   red: Team;
   blue: Team;
-  history?: Event[];
+  history?: {
+    [key: string]: Event;
+  };
 }

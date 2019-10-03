@@ -29,7 +29,7 @@ export default new Vuex.Store({
       return state.match;
     },
     redScore(state, getters): number {
-      return state.match!.history!.filter(
+      return Object.values(state.match!.history!).filter(
         (h) =>
           (h.type === 'goal' &&
             getColorByPlayer(h.player, state.match!) === 'red') ||
@@ -38,7 +38,7 @@ export default new Vuex.Store({
       ).length;
     },
     blueScore(state, getters): number {
-      return state.match!.history!.filter(
+      return Object.values(state.match!.history!).filter(
         (h) =>
           (h.type === 'goal' &&
             getColorByPlayer(h.player, state.match!) === 'blue') ||
@@ -60,7 +60,7 @@ export default new Vuex.Store({
     setMatch(state: AppState, match: Match | undefined) {
       state.match = match;
       if (state.match && !state.match.history) {
-        state.match.history = [];
+        state.match.history = {};
       }
     }
   },
