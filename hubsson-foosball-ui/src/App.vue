@@ -8,7 +8,7 @@ import Firebase from "firebase";
 import moment from "moment";
 
 Vue.filter("date", value => {
-  return moment(value).fromNow();
+  return moment(value).format("YYYY-MM-DD HH:mm:ss");
 });
 
 export default Vue.extend({

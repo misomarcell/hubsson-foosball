@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
-    <button class="ui huge primary button">
+    <button class="ui huge primary button" @click="login()">
       <i class="google icon"></i>
-	  Login 
+      Login
     </button>
   </div>
 </template>
@@ -13,41 +13,47 @@ import Vue from "vue";
 // import Players from "@/components/Players.vue";
 // import PlayerSelector from "@/components/PlayerSelector.vue";
 // import History from "@/components/History.vue";
-// import Firebase from "firebase";
+import Firebase from "firebase";
 // import { Match } from "../models/Match";
 // import Modal from "../components/Modal.vue";
 // import PlayerSelectorVue from "../components/PlayerSelector.vue";
 
-// const app = Firebase.initializeApp({
-//   apiKey: "AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo",
-//   authDomain: "hubsson-foosball-eur3.firebaseapp.com",
-//   databaseURL: "https://hubsson-foosball-eur3.firebaseio.com",
-//   projectId: "hubsson-foosball-eur3",
-//   storageBucket: "hubsson-foosball-eur3.appspot.com",
-//   messagingSenderId: "978313456818"
-// });
+const app = Firebase.initializeApp({
+  apiKey: "AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo",
+  authDomain: "hubsson-foosball-eur3.firebaseapp.com",
+  databaseURL: "https://hubsson-foosball-eur3.firebaseio.com",
+  projectId: "hubsson-foosball-eur3",
+  storageBucket: "hubsson-foosball-eur3.appspot.com",
+  messagingSenderId: "978313456818"
+});
 
 export default Vue.extend({
-  components: {
-  },
+  components: {},
   data() {
-    return {
-    };
+    return {};
   },
-  mounted() {
-  },
-  computed: {
-  },
+  mounted: {},
+  computed: {},
   methods: {
+    login() {
+      Firebase.auth().onAuthStateChanged(user => {
+        if (!user) {
+          const provider = new Firebase.auth.GoogleAuthProvider();
+          Firebase.auth().signInWithPopup(provider);
+        }
+
+        Firebase.auth().signOut;
+      });
+    }
   }
 });
 </script>
 <style scoped>
 .login-container {
-	height: 100%;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

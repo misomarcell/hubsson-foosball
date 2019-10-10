@@ -9,11 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          :key="item.time"
-          v-for="(item, key) in history"
-          :class="{ negative: item.type == 'owngoal' }"
-        >
+        <tr :key="item.time" v-for="item in history" :class="{ negative: item.type == 'owngoal' }">
           <td>
             <h4 class="ui image header" v-bind:class="[ getPlayerColor(item.player) ]">
               <img
@@ -35,7 +31,7 @@
             <button class="ui icon blue button" data-tooltip="Change to own-goal">
               <i class="icon exchange"></i>
             </button>
-            <button class="ui icon red button" @click="remove(key)" data-tooltip="Remove">
+            <button class="ui icon red button" @click="remove(item.key)" data-tooltip="Remove">
               <i class="icon trash alternate"></i>
             </button>
           </td>
@@ -49,6 +45,7 @@
 import Vue from "vue";
 import Firebase from "firebase";
 import { Event } from "../models/event";
+import moment from "moment";
 
 export default Vue.extend({
   data() {
@@ -58,7 +55,9 @@ export default Vue.extend({
   },
   computed: {
     history(): any {
-      return this.state.match.history;
+      return Object.entries(this.state.match.history)
+        .map(([key, value]) => ({ ...value, key }))
+        .sort((a, b) => moment(b.time).diff(moment(a.time)));
     }
   },
   methods: {
@@ -69,6 +68,8 @@ export default Vue.extend({
         : "blue";
     },
     remove(key: string) {
+      console.log("MatchID: " + this.state.match.id + " key: " + key);
+
       Firebase.database()
         .ref(`matches/${this.state.match.id}/history/${key}`)
         .remove();

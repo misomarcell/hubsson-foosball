@@ -74,14 +74,6 @@ export default Vue.extend({
   },
   mounted() {
     // TODO: Change this
-    Firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        const provider = new Firebase.auth.GoogleAuthProvider();
-        Firebase.auth().signInWithPopup(provider);
-      }
-
-      Firebase.auth().signOut;
-    });
 
     this.activeMatchRef.on("value", snapshot => {
       const activeMatch = snapshot!.val();
