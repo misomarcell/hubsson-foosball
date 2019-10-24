@@ -52,19 +52,23 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthorized = !!Firebase.auth().currentUser;
-  const matchedRoute = to.matched.find((routeDef) => routeDef.meta.routeRestriction);
-  const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
+  // TODO: Fix this
+  Firebase.auth().onAuthStateChanged((user) => {
+    const isAuthorized = !!user;
 
-  if (routeRestriction === RouteRestriction.authorized && !isAuthorized) {
-    return next('/');
-  }
+    const matchedRoute = to.matched.find((routeDef) => routeDef.meta.routeRestriction);
+    const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
 
-  if (routeRestriction === RouteRestriction.notAuthorized && isAuthorized) {
-    return next('/lobby');
-  }
+    if (routeRestriction === RouteRestriction.authorized && !isAuthorized) {
+      return next('/');
+    }
 
-  next();
+    if (routeRestriction === RouteRestriction.notAuthorized && isAuthorized) {
+      return next('/lobby');
+    }
+
+    next();
+  });
 });
 
 export default router;
