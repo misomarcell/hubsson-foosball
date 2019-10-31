@@ -3,7 +3,7 @@
     <div class="ui ten wide column">
       <div class="ui secondary menu">
         <a class="active item">Game</a>
-        <a class="item">Statistics</a>
+        <router-link v-bind:to="'/about'">About</router-link>
         <a class="item">
           Reservations
           <a class="ui red circular label">2</a>

@@ -1,14 +1,22 @@
 <template>
-  <div class="login-container">
-    <button class="ui huge primary button" @click="googleLogin()">
-      <i class="google icon"></i>
-      Login with Google
-    </button>
-
-    <button class="ui huge primary button" @click="githubLogin()">
-      <i class="github icon"></i>
-      Login with Github
-    </button>
+  <div class="ui middle aligned center aligned grid">
+    <div class="six wide column">
+      <h2 class="ui huge header">
+        <div class="content">Log-in to your account</div>
+      </h2>
+      <div class="ui large form">
+        <div class="ui segment">
+          <button class="ui huge primary button" @click="login('github')">
+            <i class="github icon"></i>
+            Login with Github
+          </button>
+          <button class="ui huge primary button" @click="login('google')">
+            <i class="google icon"></i>
+            Login with Google
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,46 +30,47 @@ export default Vue.extend({
     return {};
   },
   methods: {
-    googleLogin() {
-      Firebase.auth().onAuthStateChanged(user => {
-        if (!user) {
-          const provider = new Firebase.auth.GoogleAuthProvider();
-          //Firebase.auth().signInWithPopup(provider);
-          Firebase.auth()
-            .signInWithPopup(provider)
-            .then(result => {
-              console.log(result);
-            });
+    login(providerName) {
+      let provider;
+
+      switch (providerName) {
+        case "github": {
+          provider = new Firebase.auth.GithubAuthProvider();
+          break;
         }
-
-        //Firebase.auth().signOut;
-      });
-    },
-
-    githubLogin() {
-      Firebase.auth().onAuthStateChanged(user => {
-        if (!user) {
-          const provider = new Firebase.auth.GithubAuthProvider();
-          //Firebase.auth().signInWithPopup(provider);
-          Firebase.auth()
-            .signInWithPopup(provider)
-            .then(result => {
-              console.log(result);
-            });
+        case "google": {
+          provider = new Firebase.auth.GoogleAuthProvider();
+          break;
         }
+        default: {
+          break;
+        }
+      }
 
-        //Firebase.auth().signOut;
-      });
+      Firebase.auth()
+        .signInWithPopup(provider)
+        .then(user => {
+          console.log(user);
+        });
+
+      // const unsubscribe = Firebase.auth().onAuthStateChanged(user => {
+      //   if (!user) {
+      //     Firebase.auth().signInWithPopup(provider);
+      //   }
+      // });
+
+      // unsubscribe();
+      // console.log(
+      //   "SALALALALLAALLALALALALALALALALALALLALALALALLALALALALLALAALALALALALA"
+      // );
     }
   }
 });
 </script>
 <style scoped>
-.login-container {
+html,
+body,
+body > .grid {
   height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

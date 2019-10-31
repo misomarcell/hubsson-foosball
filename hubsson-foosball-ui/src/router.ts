@@ -71,4 +71,15 @@ router.beforeEach((to, from, next) => {
   });
 });
 
+Firebase.auth().onAuthStateChanged((user) => {
+  if (!user) {
+    const matchedRoute = router.currentRoute.matched.find((routeDef) => routeDef.meta.routeRestriction);
+    const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
+
+    if (routeRestriction === RouteRestriction.authorized) {
+      router.push('/');
+    }
+  }
+});
+
 export default router;
