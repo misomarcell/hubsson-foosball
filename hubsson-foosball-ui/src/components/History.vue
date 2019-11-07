@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Firebase from "firebase";
+import firebaseService from "../services/firebase.service";
 import { Event } from "../models/event";
 import moment from "moment";
 
@@ -70,7 +70,7 @@ export default Vue.extend({
     remove(key: string) {
       console.log("MatchID: " + this.state.match.id + " key: " + key);
 
-      Firebase.database()
+      firebaseService.database
         .ref(`matches/${this.state.match.id}/history/${key}`)
         .remove();
     }

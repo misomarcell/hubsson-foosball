@@ -18,7 +18,7 @@
 <script lang="ts">
 import Vue from "vue";
 import moment from "moment";
-import { database } from "../services/database";
+import firebaseService from "../services/firebase.service";
 import Firebase from "firebase";
 import { Event } from "../models/event";
 import PlayerCard from "../components/PlayerCard.vue";
@@ -40,7 +40,7 @@ export default Vue.extend({
   methods: {
     score(event: Event) {
       console.log(event);
-      Firebase.database()
+      firebaseService.database
         .ref(`matches/${this.state.match.id}/history`)
         .push(event);
     }

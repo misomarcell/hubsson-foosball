@@ -53,16 +53,6 @@ export default Vue.extend({
           console.log(user);
         });
 
-      // const unsubscribe = Firebase.auth().onAuthStateChanged(user => {
-      //   if (!user) {
-      //     Firebase.auth().signInWithPopup(provider);
-      //   }
-      // });
-
-      // unsubscribe();
-      // console.log(
-      //   "SALALALALLAALLALALALALALALALALALALLALALALALLALALALALLALAALALALALALA"
-      // );
     }
   }
 });

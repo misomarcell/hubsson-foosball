@@ -37,15 +37,17 @@
 </template>
 
 <script lang='ts'>
-import Vue from 'vue';
-import ScoreBoard from '@/components/ScoreBoard.vue';
-import Players from '@/components/Players.vue';
-import PlayerSelector from '@/components/PlayerSelector.vue';
-import History from '@/components/History.vue';
-import { Match } from '../models/Match';
-import Modal from '../components/Modal.vue';
-import PlayerSelectorVue from '../components/PlayerSelector.vue';
-import { database } from '../services/database';
+import Vue from "vue";
+import ScoreBoard from "@/components/ScoreBoard.vue";
+import Players from "@/components/Players.vue";
+import PlayerSelector from "@/components/PlayerSelector.vue";
+import History from "@/components/History.vue";
+import { Match } from "../models/Match";
+import Modal from "../components/Modal.vue";
+import PlayerSelectorVue from "../components/PlayerSelector.vue";
+import activeMatchService from "../services/active-match.service";
+import matchService from "../services/match.service";
+import firebaseService from "../services/firebase.service";
 
 export default Vue.extend({
   components: {
@@ -57,7 +59,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      activeMatchRef: database.ref('activeMatch'),
       matchId: 0,
       score: 0,
       state: this.$store.state
@@ -66,18 +67,18 @@ export default Vue.extend({
   mounted() {
     // TODO: Change this
 
-    this.activeMatchRef.on('value', snapshot => {
+    activeMatchService.subsrcibeOnValue(snapshot => {
       const activeMatch = snapshot!.val();
+      console.log("mi vaaaaan");
       if (!activeMatch || !activeMatch.matchId) {
-        this.$store.commit('setMatch', undefined);
+        console.log("jóóóóóóóó");
+        this.$store.commit("setMatch", undefined);
         return;
       }
 
-      database
-        .ref(`matches/${activeMatch.matchId}`)
-        .on('value', match => {
-          this.$store.commit('setMatch', match!.val() as Match);
-        });
+      matchService.subsrcibeOnMatchValue(activeMatch.matchId, match => {
+        this.$store.commit("setMatch", match!.val() as Match);
+      });
     });
   },
   computed: {
@@ -90,11 +91,12 @@ export default Vue.extend({
       (this.$refs.modal as any).toggle();
     },
     async endGaneConfirm() {
-      await this.activeMatchRef.set(null);
+      console.log("qwert");
+      await firebaseService.database.ref("activeMatch").set(null);
       (this.$refs.modal as any).toggle();
     },
     startGame() {
-      const matchesRef = database.ref('matches');
+      const matchesRef = firebaseService.database.ref("matches");
       const newMatchKey = matchesRef.push().key;
       const match = {
         id: newMatchKey,
@@ -108,11 +110,9 @@ export default Vue.extend({
       // const updates: any = {};
       // if (newMatchKey) { updates[newMatchKey] = match; }
       // matchesRef.update(updates);
-      database
-        .ref('matches/' + newMatchKey)
-        .set(match);
+      firebaseService.database.ref("matches/" + newMatchKey).set(match);
 
-      this.activeMatchRef.set({
+      firebaseService.database.ref("activeMatch").set({
         matchId: newMatchKey,
         red: this.$store.state.newTeams.red,
         blue: this.$store.state.newTeams.blue

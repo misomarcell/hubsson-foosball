@@ -77,21 +77,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import moment from 'moment';
-import { database } from '../services/database';
-import Firebase from 'firebase';
-import { Event } from '../models/event';
-import PlayerCard from '../components/PlayerCard.vue';
+import Vue from "vue";
+import moment from "moment";
+import Firebase from "firebase";
+import { Event } from "../models/event";
+import PlayerCard from "../components/PlayerCard.vue";
 
 export default Vue.extend({
   data() {
     return {
       users: [
-        { text: 'Zoli', value: 'Zoli' },
-        { text: 'Ezékiel', value: 'Ezékiel' },
-        { text: 'Gábor', value: 'Gábor' },
-        { text: 'Józsi', value: 'Józsi' }
+        { text: "Zoli", value: "Zoli" },
+        { text: "Ezékiel", value: "Ezékiel" },
+        { text: "Gábor", value: "Gábor" },
+        { text: "Józsi", value: "Józsi" }
       ]
     };
   }

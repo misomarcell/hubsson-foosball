@@ -1,3 +1,4 @@
+import store from '../store';
 import Firebase from 'firebase';
 
 Firebase.initializeApp({
@@ -9,4 +10,16 @@ Firebase.initializeApp({
   messagingSenderId: '978313456818'
 });
 
-export const database = Firebase.database();
+class FirebaseService {
+  public readonly database = Firebase.database();
+
+  public subscribeToAuthStateChange(): void {
+    Firebase.auth().onAuthStateChanged((user) => {
+      store.commit('setUser', user ? user.displayName : undefined);
+    });
+  }
+
+}
+
+const service = new FirebaseService();
+export default service;
