@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import LandingPage from './views/LandingPage.vue';
 import LobbyLayout from './views/LobbyLayout.vue';
-import Firebase from 'firebase';
+import firebaseService from './services/firebase.service';
 
 Vue.use(Router);
 
@@ -53,8 +53,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   // TODO: Fix this
-  Firebase.auth().onAuthStateChanged((user) => {
-    const isAuthorized = !!user;
+    const isAuthorized = firebaseService.isAuthenticated();
 
     const matchedRoute = to.matched.find((routeDef) => routeDef.meta.routeRestriction);
     const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
@@ -68,17 +67,18 @@ router.beforeEach((to, from, next) => {
     }
 
     next();
-  });
 });
 
-Firebase.auth().onAuthStateChanged((user) => {
-  if (!user) {
-    const matchedRoute = router.currentRoute.matched.find((routeDef) => routeDef.meta.routeRestriction);
-    const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
+firebaseService.subscribeOnAuthStateChange((user) => {
+  const matchedRoute = router.currentRoute.matched.find((routeDef) => routeDef.meta.routeRestriction);
+  const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
 
+  if (!user) {
     if (routeRestriction === RouteRestriction.authorized) {
       router.push('/');
     }
+  } else {
+    router.push('/lobby');
   }
 });
 

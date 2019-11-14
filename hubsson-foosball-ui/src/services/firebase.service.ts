@@ -10,13 +10,34 @@ Firebase.initializeApp({
   messagingSenderId: '978313456818'
 });
 
+export type SupportedProvider = 'google' | 'github';
+
+const supportedProvidersObject: { [k in SupportedProvider ]: () => Firebase.auth.AuthProvider } = {
+  github: () => new Firebase.auth.GithubAuthProvider(),
+  google: () => new Firebase.auth.GoogleAuthProvider()
+};
+
+
 class FirebaseService {
   public readonly database = Firebase.database();
 
-  public subscribeToAuthStateChange(): void {
-    Firebase.auth().onAuthStateChanged((user) => {
-      store.commit('setUser', user ? user.displayName : undefined);
-    });
+  public subscribeOnAuthStateChange(callback: (user: Firebase.User | null) => void) {
+    Firebase.auth().onAuthStateChanged(callback);
+  }
+
+  public isAuthenticated(): boolean {
+    return !!Firebase.auth().currentUser;
+  }
+
+  public login(providerName: SupportedProvider) {
+    const provider = supportedProvidersObject[providerName]();
+
+    Firebase.auth()
+        .signInWithPopup(provider);
+  }
+
+  public logout() {
+    Firebase.auth().signOut();
   }
 
 }

@@ -15,4 +15,4 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
-firebaseService.subscribeToAuthStateChange();
+firebaseService.subscribeOnAuthStateChange((user) => store.commit('setUser', user ? user.displayName : undefined));

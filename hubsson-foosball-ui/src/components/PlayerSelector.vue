@@ -79,7 +79,6 @@
 <script lang="ts">
 import Vue from "vue";
 import moment from "moment";
-import Firebase from "firebase";
 import { Event } from "../models/event";
 import PlayerCard from "../components/PlayerCard.vue";
 

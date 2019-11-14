@@ -22,7 +22,7 @@
 
 <script lang='ts'>
 import Vue from "vue";
-import Firebase from "firebase";
+import firebaseService from '../services/firebase.service';
 
 export default Vue.extend({
   components: {},
@@ -31,28 +31,7 @@ export default Vue.extend({
   },
   methods: {
     login(providerName) {
-      let provider;
-
-      switch (providerName) {
-        case "github": {
-          provider = new Firebase.auth.GithubAuthProvider();
-          break;
-        }
-        case "google": {
-          provider = new Firebase.auth.GoogleAuthProvider();
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-
-      Firebase.auth()
-        .signInWithPopup(provider)
-        .then(user => {
-          console.log(user);
-        });
-
+      firebaseService.login(providerName);
     }
   }
 });

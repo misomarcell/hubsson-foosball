@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Firebase from "firebase";
+import firebaseService from "../services/firebase.service";
 
 export default Vue.extend({
   data() {
@@ -31,7 +31,7 @@ export default Vue.extend({
   },
   methods: {
     logOut() {
-      Firebase.auth().signOut();
+      firebaseService.logout();
     }
   }
 });
