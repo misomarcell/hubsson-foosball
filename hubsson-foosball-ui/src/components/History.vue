@@ -68,8 +68,6 @@ export default Vue.extend({
         : "blue";
     },
     remove(key: string) {
-      console.log("MatchID: " + this.state.match.id + " key: " + key);
-
       firebaseService.database
         .ref(`matches/${this.state.match.id}/history/${key}`)
         .remove();

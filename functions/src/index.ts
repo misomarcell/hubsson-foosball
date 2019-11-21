@@ -3,13 +3,17 @@ import * as express from 'express';
 import * as cors from 'cors';
 
 import { getMatchHistoryHandler, putMatchHistoryHandler } from "./handlers/matchHistory/matchHistory.handler";
+import { getUsers } from './handlers/getUsers/users.handler';
 
-const app = express();
+const matchHistoryApp = express();
+const usersApp = express();
 
-app.use(cors({ origin: true }));
+matchHistoryApp.use(cors({ origin: true }));
 
-app.get('/', getMatchHistoryHandler);
-app.put('/', putMatchHistoryHandler);
+usersApp.get('/', getUsers);
+matchHistoryApp.get('/', getMatchHistoryHandler);
+matchHistoryApp.put('/', putMatchHistoryHandler);
 
 // exported function names that are visible in firebase
-exports.matchHistory = functions.https.onRequest(app);
+exports.matchHistory = functions.https.onRequest(matchHistoryApp);
+exports.users = functions.https.onRequest(usersApp);

@@ -1,5 +1,6 @@
 import store from '../store';
 import Firebase from 'firebase';
+import * as admin from 'firebase-admin';
 
 Firebase.initializeApp({
   apiKey: 'AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo',
@@ -10,9 +11,14 @@ Firebase.initializeApp({
   messagingSenderId: '978313456818'
 });
 
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  databaseURL: 'https://hubsson-foosball-eur3.firebaseio.com'
+});
+
 export type SupportedProvider = 'google' | 'github';
 
-const supportedProvidersObject: { [k in SupportedProvider ]: () => Firebase.auth.AuthProvider } = {
+const supportedProvidersObject: { [k in SupportedProvider]: () => Firebase.auth.AuthProvider } = {
   github: () => new Firebase.auth.GithubAuthProvider(),
   google: () => new Firebase.auth.GoogleAuthProvider()
 };
@@ -33,13 +39,12 @@ class FirebaseService {
     const provider = supportedProvidersObject[providerName]();
 
     Firebase.auth()
-        .signInWithPopup(provider);
+      .signInWithPopup(provider);
   }
 
   public logout() {
     Firebase.auth().signOut();
   }
-
 }
 
 const service = new FirebaseService();

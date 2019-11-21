@@ -69,9 +69,7 @@ export default Vue.extend({
 
     activeMatchService.subsrcibeOnValue(snapshot => {
       const activeMatch = snapshot!.val();
-      console.log("mi vaaaaan");
       if (!activeMatch || !activeMatch.matchId) {
-        console.log("jóóóóóóóó");
         this.$store.commit("setMatch", undefined);
         return;
       }

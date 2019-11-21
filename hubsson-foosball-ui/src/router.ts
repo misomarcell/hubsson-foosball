@@ -52,21 +52,19 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  // TODO: Fix this
-    const isAuthorized = firebaseService.isAuthenticated();
+  const isAuthorized = firebaseService.isAuthenticated();
+  const matchedRoute = to.matched.find((routeDef) => routeDef.meta.routeRestriction);
+  const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
 
-    const matchedRoute = to.matched.find((routeDef) => routeDef.meta.routeRestriction);
-    const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
+  if (routeRestriction === RouteRestriction.authorized && !isAuthorized) {
+    return next('/');
+  }
 
-    if (routeRestriction === RouteRestriction.authorized && !isAuthorized) {
-      return next('/');
-    }
+  if (routeRestriction === RouteRestriction.notAuthorized && isAuthorized) {
+    return next('/lobby');
+  }
 
-    if (routeRestriction === RouteRestriction.notAuthorized && isAuthorized) {
-      return next('/lobby');
-    }
-
-    next();
+  next();
 });
 
 firebaseService.subscribeOnAuthStateChange((user) => {
@@ -78,7 +76,9 @@ firebaseService.subscribeOnAuthStateChange((user) => {
       router.push('/');
     }
   } else {
-    router.push('/lobby');
+    if (routeRestriction === RouteRestriction.notAuthorized) {
+      router.push('/lobby');
+    }
   }
 });
 
