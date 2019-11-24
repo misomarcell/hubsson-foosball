@@ -25,24 +25,34 @@ export function getMatchHistoryHandler(request: Request, response: Response) {
 export function putMatchHistoryHandler(request: Request, response: Response) {
     admin.database().ref("activeMatch")
         .once("value")
-        .then(activeMatchResult => {
-            let activeMatchId = "";
+        .then((activeMatchResult: any) => {
+            let activeMatch = {} as any;
             try {
-                activeMatchId = activeMatchResult.val().matchId;
+                activeMatch = activeMatchResult.val();
             }
             catch (e) {
                 throw e;
             }
 
-            const newScore = {
-                player: request.body["buttonId"],
+            const team01 = request.body.team01;
+            const position01 = request.body.position01;
+
+            const historyEntry = {
+                player01: activeMatch[team01][position01],
+                player02: null,
                 time: new Date().toUTCString(),
-                type: request.body["action"]
+                type: request.body.action
             };
 
+            if (request.body && request.body.team02 && request.body.position02) {
+                const team02 = request.body.team02;
+                const position02 = request.body.position02;
+                historyEntry.player02 = activeMatch[team02][position02]
+            }
+
             admin.database()
-                .ref('matches/' + activeMatchId + "/history")
-                .push(newScore)
+                .ref('matches/' + activeMatch.matchId + "/history")
+                .push(historyEntry)
                 .then(result => {
                     response.send(result);
                 })
