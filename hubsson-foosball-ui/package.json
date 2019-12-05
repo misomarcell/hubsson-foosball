@@ -9,8 +9,9 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^0.6.13",
     "firebase": "^5.8.2",
-    "firebase-admin": "^8.8.0",
+    "firebase-admin": "8.0.0",
     "firebaseui": "^4.1.0",
     "moment": "^2.24.0",
     "semantic-ui-vue": "^0.8.1",

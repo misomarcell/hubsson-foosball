@@ -9,6 +9,7 @@ const matchHistoryApp = express();
 const usersApp = express();
 
 matchHistoryApp.use(cors({ origin: true }));
+usersApp.use(cors({ origin: true }));
 
 usersApp.get('/', getUsers);
 matchHistoryApp.get('/', getMatchHistoryHandler);

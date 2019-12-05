@@ -1,6 +1,5 @@
 import store from '../store';
 import Firebase from 'firebase';
-import * as admin from 'firebase-admin';
 
 Firebase.initializeApp({
   apiKey: 'AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo',
@@ -9,11 +8,6 @@ Firebase.initializeApp({
   projectId: 'hubsson-foosball-eur3',
   storageBucket: 'hubsson-foosball-eur3.appspot.com',
   messagingSenderId: '978313456818'
-});
-
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-  databaseURL: 'https://hubsson-foosball-eur3.firebaseio.com'
 });
 
 export type SupportedProvider = 'google' | 'github';
@@ -46,6 +40,8 @@ class FirebaseService {
     Firebase.auth().signOut();
   }
 }
+
+Firebase.functions().httpsCallable('users')().then((asd) => console.log(asd));
 
 const service = new FirebaseService();
 export default service;
