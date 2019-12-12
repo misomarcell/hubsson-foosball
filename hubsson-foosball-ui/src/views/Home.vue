@@ -66,7 +66,7 @@ export default Vue.extend({
   },
   mounted() {
     // TODO: Change this
-
+    
     activeMatchService.subsrcibeOnValue(snapshot => {
       const activeMatch = snapshot!.val();
       if (!activeMatch || !activeMatch.matchId) {

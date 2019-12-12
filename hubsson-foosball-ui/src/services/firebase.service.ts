@@ -41,7 +41,5 @@ class FirebaseService {
   }
 }
 
-Firebase.functions().httpsCallable('users')().then((asd) => console.log(asd));
-
 const service = new FirebaseService();
 export default service;
