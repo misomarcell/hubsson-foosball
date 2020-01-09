@@ -2,12 +2,12 @@
   <div class="ui fluid card">
     <div class="content">
       <img
-        class="mini ui left floated image"
-        src="https://semantic-ui.com/images/avatar2/large/molly.png"
+        class="mini ui left floated image rounded"
+        :src="player | avatar"
       />
       <div class="ui">
         <span class="ui left floated">
-          <h4 v-bind:class="['ui', 'header', getColorByPlayer()]">{{ player }}</h4>
+          <h4 v-bind:class="['ui', 'header', getColorByPlayer()]">{{ player | displayName }}</h4>
         </span>
         <a class="ui right floated label">
           <i class="futbol icon"></i> 23
@@ -35,7 +35,7 @@ import { getColorByPlayer } from '../store';
 export default Vue.extend({
   props: {
     player: {
-      type: String,
+      type: Object,
       required: true
     }
   },

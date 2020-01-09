@@ -13,10 +13,10 @@
           <td>
             <h4 class="ui image header" v-bind:class="[ getPlayerColor(item.player) ]">
               <img
-                src="https://semantic-ui.com/images/avatar/small/elliot.jpg"
+                :src="item.player | avatar"
                 class="ui mini rounded image"
               />
-              <div class="content">{{ item.player }}</div>
+              <div class="content">{{ item.player | displayName }}</div>
             </h4>
           </td>
           <td class="event">
@@ -55,7 +55,7 @@ export default Vue.extend({
   },
   computed: {
     history(): any {
-      return Object.entries(this.state.match.history)
+      return Object.entries(this.state.match.history as History)
         .map(([key, value]) => ({ ...value, key }))
         .sort((a, b) => moment(b.time).diff(moment(a.time)));
     }

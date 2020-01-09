@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import { AppState } from './models/app-state';
 import { Match } from './models/match';
 import { Team } from './models/team';
+import { User } from './models/user';
 
 Vue.use(Vuex);
 
@@ -67,8 +68,8 @@ export default new Vuex.Store({
   actions: {}
 });
 
-export function getColorByPlayer(player: string, match: Match): string {
-  return match.red.striker === player || match.red.defender === player
+export function getColorByPlayer(player: User, match: Match): string {
+  return match.red.striker.uid === player.uid || match.red.defender.uid === player.uid
     ? 'red'
     : 'blue';
 }

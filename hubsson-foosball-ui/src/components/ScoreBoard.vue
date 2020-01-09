@@ -8,7 +8,7 @@
       Red Team
       <div class="sub header">{{ redTeam }}</div>
     </h3>
-    <h3 class="ui center aligned header">{{ redScore }} : {{ blueScore }}</h3>
+    <div class="ui center aligned header huge">{{ redScore }} : {{ blueScore }}</div>
   </div>
 </template>
 
@@ -23,16 +23,16 @@ export default Vue.extend({
   },
   computed: {
     redTeam(): string {
-      return `${this.state.match.red.striker} & ${
-        this.state.match.red.defender
+      return `${this.state.match.red.striker.displayName } & ${
+        this.state.match.red.defender.displayName
       }`;
     },
     redScore(): number {
       return this.$store.getters.redScore;
     },
     blueTeam(): string {
-      return `${this.$store.getters.blueStriker} & ${
-        this.$store.getters.blueDefender
+      return `${this.$store.getters.blueStriker.displayName} & ${
+        this.$store.getters.blueDefender.displayName
       }`;
     },
     blueScore(): number {

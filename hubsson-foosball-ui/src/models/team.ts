@@ -1,4 +1,6 @@
+import { User } from './user';
+
 export interface Team {
-  defender: string;
-  striker: string;
+  defender: User;
+  striker: User;
 }

@@ -82,15 +82,16 @@ import moment from "moment";
 import { Event } from "../models/event";
 import PlayerCard from "../components/PlayerCard.vue";
 import userService from "../services/user.service";
+import { User } from '../models/user';
 
 export default Vue.extend({
   data() {
-    let users = [];
+    let users: { text: string, value: User }[] = [];
     userService.getAllUser().then(u => {
       users.push(...u.map(x => {
         return {
-          text: x.displayName || x.email,
-          value: x.uid
+          text: x.displayName || x.email ,
+          value: x
         }
       }))
     });
