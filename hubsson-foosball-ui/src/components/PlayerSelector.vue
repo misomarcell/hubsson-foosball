@@ -11,7 +11,7 @@
                 selection
                 fluid
                 search
-                :options="users"
+                :options="users | excludeSelected(selectedUsers)"
                 v-model="$store.state.newTeams.red.defender"
                 test-id="player-select-red-defender"
               ></sui-dropdown>
@@ -87,6 +87,7 @@ import { User } from '../models/user';
 export default Vue.extend({
   data() {
     let users: { text: string, value: User }[] = [];
+    let selectedUsers: { text: string, value: User }[] = [];
     userService.getAllUser().then(u => {
       users.push(...u.map(x => {
         return {
@@ -97,8 +98,23 @@ export default Vue.extend({
     });
     
     return {
-      users: users
+      users: users,
+      selectedUsers: selectedUsers
     };
+  },
+  watch: {
+    '$store.state.newTeams.red.defender': function(user) {
+      this.selectedUsers[0] = user;
+    },
+    '$store.state.newTeams.red.striker': function(user) {
+      this.selectedUsers[1] = user;
+    },
+    '$store.state.newTeams.blue.defender': function(user) {
+      this.selectedUsers[2] = user;
+    },
+    '$store.state.newTeams.blue.striker': function(user) {
+      this.selectedUsers[3] = user;
+    }
   }
 });
 </script>

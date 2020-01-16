@@ -19,6 +19,13 @@ Vue.filter("avatar", (value: User) => {
   return value.photoURL || 'https://semantic-ui.com/images/avatar/small/elliot.jpg';
 });
 
+Vue.filter("excludeSelected", (value: {text: string, value: User}[], selectedUsers: User[]) => {
+  // TODO: fix this
+  let selectedUserIds = selectedUsers.filter(x => !!x).map(y => y.uid);
+  let result = value.filter(x => !selectedUserIds.includes(x.value.uid));
+  return result;
+});
+
 export default Vue.extend({
   data() {
     return {};
