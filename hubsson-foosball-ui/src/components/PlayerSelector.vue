@@ -11,8 +11,8 @@
                 selection
                 fluid
                 search
-                :options="users | excludeSelected(selectedUsers)"
-                v-model="$store.state.newTeams.red.defender"
+                :options="usersSelectList | excludeSelected(selectedUsers.red.defenderId, selectedUsers)"
+                v-model="selectedUsers.red.defenderId"
                 test-id="player-select-red-defender"
               ></sui-dropdown>
             </div>
@@ -27,8 +27,8 @@
                 selection
                 fluid
                 search
-                :options="users"
-                v-model="$store.state.newTeams.red.striker"
+                :options="usersSelectList | excludeSelected(selectedUsers.red.strikerId, selectedUsers)"
+                v-model="selectedUsers.red.strikerId"
                 test-id="player-select-red-striker"
               ></sui-dropdown>
             </div>
@@ -48,8 +48,8 @@
                 selection
                 fluid
                 search
-                :options="users"
-                v-model="$store.state.newTeams.blue.defender"
+                :options="usersSelectList | excludeSelected(selectedUsers.blue.defenderId, selectedUsers)"
+                v-model="selectedUsers.blue.defenderId"
                 test-id="player-select-blue-defender"
               ></sui-dropdown>
             </div>
@@ -64,8 +64,8 @@
                 selection
                 fluid
                 search
-                :options="users"
-                v-model="$store.state.newTeams.blue.striker"
+                :options="usersSelectList | excludeSelected(selectedUsers.blue.strikerId, selectedUsers)"
+                v-model="selectedUsers.blue.strikerId"
                 test-id="player-select-blue-striker"
               ></sui-dropdown>
             </div>
@@ -83,38 +83,28 @@ import { Event } from "../models/event";
 import PlayerCard from "../components/PlayerCard.vue";
 import userService from "../services/user.service";
 import { User } from '../models/user';
+import { Team, TeamSelect } from "../models/team";
 
 export default Vue.extend({
   data() {
-    let users: { text: string, value: User }[] = [];
-    let selectedUsers: { text: string, value: User }[] = [];
+    let users: User[] = [];
+    let usersSelectList: { text: string, value: string }[] = [];
+    let selectedUsers: TeamSelect = { red: {}, blue: {}};
     userService.getAllUser().then(u => {
-      users.push(...u.map(x => {
+      users = u;
+      usersSelectList.push(...users.map(x => {
         return {
           text: x.displayName || x.email ,
-          value: x
+          value: x.uid
         }
-      }))
+      }));
     });
     
     return {
-      users: users,
-      selectedUsers: selectedUsers
+      users,
+      usersSelectList,
+      selectedUsers
     };
-  },
-  watch: {
-    '$store.state.newTeams.red.defender': function(user) {
-      this.selectedUsers[0] = user;
-    },
-    '$store.state.newTeams.red.striker': function(user) {
-      this.selectedUsers[1] = user;
-    },
-    '$store.state.newTeams.blue.defender': function(user) {
-      this.selectedUsers[2] = user;
-    },
-    '$store.state.newTeams.blue.striker': function(user) {
-      this.selectedUsers[3] = user;
-    }
   }
 });
 </script>
