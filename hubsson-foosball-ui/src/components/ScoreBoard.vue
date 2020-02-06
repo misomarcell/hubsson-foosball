@@ -23,16 +23,16 @@ export default Vue.extend({
   },
   computed: {
     redTeam(): string {
-      return `${this.state.match.red.striker.displayName } & ${
-        this.state.match.red.defender.displayName
+      return `${this.$options.filters.displayName(this.state.match.red.striker)} & ${
+        this.$options.filters.displayName(this.state.match.red.defender)
       }`;
     },
     redScore(): number {
       return this.$store.getters.redScore;
     },
     blueTeam(): string {
-      return `${this.$store.getters.blueStriker.displayName} & ${
-        this.$store.getters.blueDefender.displayName
+      return `${this.$options.filters.displayName(this.$store.getters.blueStriker)} & ${
+        this.$options.filters.displayName(this.$store.getters.blueDefender)
       }`;
     },
     blueScore(): number {
