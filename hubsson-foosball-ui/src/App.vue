@@ -28,10 +28,6 @@ Vue.filter("excludeSelected", (value: {text: string, value: string}[], userId: s
    selectedUsers.blue.defenderId,
  ].filter(id => !!id && id !== userId);
 
- console.log(value)
- console.log(userId)
- console.log(selectedUsers)
-
   return value.filter(v => !selectedUserIds.includes(v.value))
 });
 

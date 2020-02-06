@@ -42,7 +42,7 @@ import ScoreBoard from "@/components/ScoreBoard.vue";
 import Players from "@/components/Players.vue";
 import PlayerSelector from "@/components/PlayerSelector.vue";
 import History from "@/components/History.vue";
-import { Match } from "../models/Match";
+import { Match } from "../models/match";
 import Modal from "../components/Modal.vue";
 import PlayerSelectorVue from "../components/PlayerSelector.vue";
 import activeMatchService from "../services/active-match.service";
@@ -96,14 +96,28 @@ export default Vue.extend({
     startGame() {
       const matchesRef = firebaseService.database.ref("matches");
       const newMatchKey = matchesRef.push().key;
+
+      const red = {
+        defender: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.red.defenderId),
+        striker: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.red.strikerId)
+      }
+
+      const blue = {
+        defender: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.blue.defenderId),
+        striker: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.blue.strikerId)
+      }
+      
+      console.log(red, blue);
+
       const match = {
         id: newMatchKey,
         startTime: new Date().toISOString(),
         endTime: null,
-        red: this.$store.state.newTeams.red,
-        blue: this.$store.state.newTeams.blue,
+        red,
+        blue,
         history: []
       };
+
 
       // const updates: any = {};
       // if (newMatchKey) { updates[newMatchKey] = match; }
@@ -112,8 +126,8 @@ export default Vue.extend({
 
       firebaseService.database.ref("activeMatch").set({
         matchId: newMatchKey,
-        red: this.$store.state.newTeams.red,
-        blue: this.$store.state.newTeams.blue
+        red,
+        blue
       });
     }
   }

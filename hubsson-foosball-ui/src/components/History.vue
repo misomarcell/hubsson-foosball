@@ -46,6 +46,7 @@ import Vue from "vue";
 import firebaseService from "../services/firebase.service";
 import { Event } from "../models/event";
 import moment from "moment";
+import { User } from "../models/user";
 
 export default Vue.extend({
   data() {
@@ -61,9 +62,9 @@ export default Vue.extend({
     }
   },
   methods: {
-    getPlayerColor(name: string): string {
-      return this.state.match.red.striker === name ||
-        this.state.match.red.defender === name
+    getPlayerColor(user: User): string {
+      return this.state.match.red.striker.uid === user.uid ||
+        this.state.match.red.defender.uid === user.uid
         ? "red"
         : "blue";
     },

@@ -11,8 +11,8 @@
                 selection
                 fluid
                 search
-                :options="usersSelectList | excludeSelected(selectedUsers.red.defenderId, selectedUsers)"
-                v-model="selectedUsers.red.defenderId"
+                :options="usersSelectList | excludeSelected($store.state.newTeams.red.defenderId, $store.state.newTeams)"
+                v-model="$store.state.newTeams.red.defenderId"
                 test-id="player-select-red-defender"
               ></sui-dropdown>
             </div>
@@ -27,8 +27,8 @@
                 selection
                 fluid
                 search
-                :options="usersSelectList | excludeSelected(selectedUsers.red.strikerId, selectedUsers)"
-                v-model="selectedUsers.red.strikerId"
+                :options="usersSelectList | excludeSelected($store.state.newTeams.red.strikerId, $store.state.newTeams)"
+                v-model="$store.state.newTeams.red.strikerId"
                 test-id="player-select-red-striker"
               ></sui-dropdown>
             </div>
@@ -48,8 +48,8 @@
                 selection
                 fluid
                 search
-                :options="usersSelectList | excludeSelected(selectedUsers.blue.defenderId, selectedUsers)"
-                v-model="selectedUsers.blue.defenderId"
+                :options="usersSelectList | excludeSelected($store.state.newTeams.blue.defenderId, $store.state.newTeams)"
+                v-model="$store.state.newTeams.blue.defenderId"
                 test-id="player-select-blue-defender"
               ></sui-dropdown>
             </div>
@@ -64,10 +64,12 @@
                 selection
                 fluid
                 search
-                :options="usersSelectList | excludeSelected(selectedUsers.blue.strikerId, selectedUsers)"
-                v-model="selectedUsers.blue.strikerId"
+                :options="usersSelectList | excludeSelected($store.state.newTeams.blue.strikerId, $store.state.newTeams)"
+                v-model="$store.state.newTeams.blue.strikerId"
                 test-id="player-select-blue-striker"
-              ></sui-dropdown>
+              >
+               
+               </sui-dropdown>
             </div>
           </div>
         </div>
@@ -89,21 +91,21 @@ export default Vue.extend({
   data() {
     let users: User[] = [];
     let usersSelectList: { text: string, value: string }[] = [];
-    let selectedUsers: TeamSelect = { red: {}, blue: {}};
     userService.getAllUser().then(u => {
+      this.$store.state.users = u;
       users = u;
       usersSelectList.push(...users.map(x => {
         return {
           text: x.displayName || x.email ,
-          value: x.uid
+          value: x.uid,
+          image: { avatar: true, src: x.photoURL }
         }
       }));
     });
     
     return {
       users,
-      usersSelectList,
-      selectedUsers
+      usersSelectList
     };
   }
 });

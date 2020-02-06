@@ -12,15 +12,10 @@ export default new Vuex.Store({
     currentUser: undefined,
     match: undefined,
     newTeams: {
-      blue: {
-        striker: undefined,
-        defender: undefined
-      },
-      red: {
-        striker: undefined,
-        defender: undefined
-      }
-    }
+      blue: { },
+      red: { }
+    },
+    users: []
   } as AppState,
   getters: {
     currentUser(state) {

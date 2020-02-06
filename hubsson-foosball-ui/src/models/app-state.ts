@@ -1,11 +1,10 @@
 import { Match } from './match';
-import { Team } from './team';
+import { Team, TeamSelect } from './team';
+import { User } from './user';
 
 export interface AppState {
   currentUser: string | undefined;
   match?: Match;
-  newTeams: {
-    red: Partial<Team>;
-    blue: Partial<Team>;
-  };
+  newTeams: TeamSelect;
+  users: User[];
 }
