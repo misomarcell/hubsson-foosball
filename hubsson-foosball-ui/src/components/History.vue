@@ -28,7 +28,7 @@
             <button class="ui icon green button" data-tooltip="It was me">
               <i class="icon hand paper"></i>
             </button>
-            <button class="ui icon blue button" data-tooltip="Change to own-goal">
+            <button class="ui icon blue button" @click="changeGoalType(item.key)" :data-tooltip="`Change to ${item.type === 'goal' ? 'owngoal' : 'goal'}`">
               <i class="icon exchange"></i>
             </button>
             <button class="ui icon red button" @click="remove(item.key)" data-tooltip="Remove">
@@ -72,6 +72,15 @@ export default Vue.extend({
       firebaseService.database
         .ref(`matches/${this.state.match.id}/history/${key}`)
         .remove();
+    },
+    changeGoalType(key: string) {
+      const historyItem = this.state.match.history[key];
+      let currentType = historyItem.type;
+
+      let newTypeEvent = {type: currentType === "goal" ? "owngoal" : "goal"};
+      firebaseService.database
+        .ref(`matches/${this.state.match.id}/history/${key}`)
+        .update(newTypeEvent);
     }
   }
 });

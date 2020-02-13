@@ -9,7 +9,7 @@
     "source": "functions"
   },
   "hosting": {
-    "public": "public",
+    "public": "hubsson-foosball-ui/dist",
     "redirects": [],
     "ignore": [
       "firebase.json",
