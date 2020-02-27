@@ -48,6 +48,8 @@ import PlayerSelectorVue from "../components/PlayerSelector.vue";
 import activeMatchService from "../services/active-match.service";
 import matchService from "../services/match.service";
 import firebaseService from "../services/firebase.service";
+import { tap, filter, switchMap } from 'rxjs/operators';
+import firebase from 'firebase';
 
 export default Vue.extend({
   components: {
@@ -65,19 +67,18 @@ export default Vue.extend({
     };
   },
   mounted() {
-    // TODO: Change this
-    
-    activeMatchService.subsrcibeOnValue(snapshot => {
-      const activeMatch = snapshot!.val();
-      if (!activeMatch || !activeMatch.matchId) {
-        this.$store.commit("setMatch", undefined);
-        return;
-      }
+    activeMatchService.getActiveMatch$().pipe(
+      tap(activeMatch => {
+        if(!activeMatch || !activeMatch.matchId)
+        {
+          this.$store.commit('setMatch', undefined)
+        }
+      }),
+      filter(activeMatch => !!activeMatch && !!activeMatch.matchId),
+      switchMap(activeMatch => matchService.getMatch$(activeMatch!.matchId)),
+      tap(match => this.$store.commit('setMatch', match))
+    ).subscribe();
 
-      matchService.subsrcibeOnMatchValue(activeMatch.matchId, match => {
-        this.$store.commit("setMatch", match!.val() as Match);
-      });
-    });
   },
   computed: {
     hasActiveMatch(): boolean {
@@ -94,8 +95,8 @@ export default Vue.extend({
       (this.$refs.modal as any).toggle();
     },
     startGame() {
-      const matchesRef = firebaseService.database.ref("matches");
-      const newMatchKey = matchesRef.push().key;
+      const matchesRef = firebaseService.firestore.collection("matches");
+      const newMatch = matchesRef.doc();
 
       const red = {
         defender: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.red.defenderId),
@@ -110,25 +111,17 @@ export default Vue.extend({
       console.log(red, blue);
 
       const match = {
-        id: newMatchKey,
-        startTime: new Date().toISOString(),
+        startTime: firebase.firestore.FieldValue.serverTimestamp(),
         endTime: null,
+        isActive: true,
         red,
         blue,
         history: []
       };
 
+      newMatch.set(match);
 
-      // const updates: any = {};
-      // if (newMatchKey) { updates[newMatchKey] = match; }
-      // matchesRef.update(updates);
-      firebaseService.database.ref("matches/" + newMatchKey).set(match);
-
-      firebaseService.database.ref("activeMatch").set({
-        matchId: newMatchKey,
-        red,
-        blue
-      });
+      firebaseService.firestore.collection('activeMatch').doc()
     }
   }
 });

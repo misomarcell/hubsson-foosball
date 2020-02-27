@@ -1,5 +1,6 @@
 import store from '../store';
 import Firebase from 'firebase';
+import { authState } from 'rxfire/auth';
 
 Firebase.initializeApp({
   apiKey: 'AIzaSyDIoCyBM3IAMrkS6tH70sz1qtr6WaxhTmo',
@@ -20,6 +21,7 @@ const supportedProvidersObject: { [k in SupportedProvider]: () => Firebase.auth.
 
 class FirebaseService {
   public readonly database = Firebase.database();
+  public readonly firestore = Firebase.firestore();
 
   public subscribeOnAuthStateChange(callback: (user: Firebase.User | null) => void) {
     Firebase.auth().onAuthStateChanged(callback);
@@ -30,10 +32,10 @@ class FirebaseService {
   }
 
   public login(providerName: SupportedProvider) {
+    
     const provider = supportedProvidersObject[providerName]();
+    Firebase.auth().signInWithPopup(provider);
 
-    Firebase.auth()
-      .signInWithPopup(provider);
   }
 
   public logout() {
