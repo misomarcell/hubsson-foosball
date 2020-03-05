@@ -1,6 +1,6 @@
 import firebaseService from './firebase.service';
-import { docData } from 'rxfire/firestore';
-import { map } from 'rxjs/operators';
+import { docData, collectionData } from 'rxfire/firestore';
+import { map, tap, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Match } from '@/models/match';
 
@@ -13,6 +13,11 @@ class MatchService {
             .pipe(
                 map((match: any) => match.data())
             );
+    }
+
+    public getMatches$(): Observable<Match[]>
+    {
+        return collectionData(firebaseService.firestore.collection('matches').orderBy('startTime', 'desc'), 'id');
     }
 }
 

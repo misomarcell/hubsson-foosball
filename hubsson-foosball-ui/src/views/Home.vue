@@ -13,12 +13,11 @@
       id="startButton"
       class="ui icon button massive positive"
       @click="startGame"
-      v-if="!hasActiveMatch"
+      :disabled="!canStartMatch"
     >Start game</button>
     <button
       id="endButton"
       class="circular ui icon button massive negative"
-      v-if="hasActiveMatch"
       @click="endGame"
     >
       <i class="close icon"></i>
@@ -33,6 +32,26 @@
     />
 
     <div id="firebaseui-auth-container"></div>
+
+<div class="ui container segment">
+  <div class="ui cards">
+    <div class="ui fluid card" v-for="match in matches" :key="match.id">
+      <div class="meta">
+        {{ match.startTime }}
+      </div>
+      <div class="extra left aligned content">
+        <img class="ui avatar image" :src="match.red.striker | avatar">
+        <img class="ui avatar image" :src="match.red.defender | avatar">
+        <img class="ui avatar image" :src="match.blue.striker | avatar">
+        <img class="ui avatar image" :src="match.blue.defender | avatar">
+        <div class="ui right floated buttons">
+          <div class="ui basic green button">Join</div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+
   </div>
 </template>
 
@@ -45,7 +64,6 @@ import History from "@/components/History.vue";
 import { Match } from "../models/match";
 import Modal from "../components/Modal.vue";
 import PlayerSelectorVue from "../components/PlayerSelector.vue";
-import activeMatchService from "../services/active-match.service";
 import matchService from "../services/match.service";
 import firebaseService from "../services/firebase.service";
 import { tap, filter, switchMap } from 'rxjs/operators';
@@ -63,26 +81,21 @@ export default Vue.extend({
     return {
       matchId: 0,
       score: 0,
-      state: this.$store.state
+      state: this.$store.state,
+      matches: [] as Match[]
     };
   },
   mounted() {
-    activeMatchService.getActiveMatch$().pipe(
-      tap(activeMatch => {
-        if(!activeMatch || !activeMatch.matchId)
-        {
-          this.$store.commit('setMatch', undefined)
-        }
-      }),
-      filter(activeMatch => !!activeMatch && !!activeMatch.matchId),
-      switchMap(activeMatch => matchService.getMatch$(activeMatch!.matchId)),
-      tap(match => this.$store.commit('setMatch', match))
-    ).subscribe();
-
+    matchService.getMatches$().pipe(
+      tap(m => this.matches = m)
+    ).subscribe()
   },
   computed: {
-    hasActiveMatch(): boolean {
-      return !!this.state.match;
+    canStartMatch(): boolean {
+      return this.$store.state.newTeams.red.strikerId &&
+      this.$store.state.newTeams.red.defenderId && 
+      this.$store.state.newTeams.blue.strikerId && 
+      this.$store.state.newTeams.blue.defenderId
     }
   },
   methods: {
@@ -108,8 +121,6 @@ export default Vue.extend({
         striker: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.blue.strikerId)
       }
       
-      console.log(red, blue);
-
       const match = {
         startTime: firebase.firestore.FieldValue.serverTimestamp(),
         endTime: null,
