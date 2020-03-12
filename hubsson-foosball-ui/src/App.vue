@@ -20,6 +20,10 @@ Vue.filter("avatar", (value: User) => {
   return value.photoURL || 'https://semantic-ui.com/images/avatar/small/elliot.jpg';
 });
 
+Vue.filter("formatDate", (value: Date) => {
+  return moment(value).format('YYYY-MM-DD HH:mm:ss');
+});
+
 
 Vue.filter("excludeSelected", (value: {text: string, value: string}[], userId: string, selectedUsers: TeamSelect) => {
  const selectedUserIds = [

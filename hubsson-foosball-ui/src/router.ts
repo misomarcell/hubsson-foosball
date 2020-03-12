@@ -3,7 +3,9 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import LandingPage from './views/LandingPage.vue';
 import LobbyLayout from './views/LobbyLayout.vue';
+import MatchLayout from './views/MatchLayout.vue';
 import firebaseService from './services/firebase.service';
+import VueRouter from 'vue-router';
 
 Vue.use(Router);
 
@@ -12,7 +14,7 @@ enum RouteRestriction {
   notAuthorized = 'notAuthorized'
 }
 
-const router = new Router({
+const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -40,6 +42,21 @@ const router = new Router({
       ]
     },
     {
+      path: '/match/:matchId?',
+      name: 'match',
+      component: MatchLayout,
+      meta: {
+        routeRestriction: RouteRestriction.authorized
+      },
+      children: [
+        {
+          path: '',
+          name: 'playerSelection',
+          component: Home
+        }
+      ]
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -55,6 +72,8 @@ router.beforeEach((to, from, next) => {
   const isAuthorized = firebaseService.isAuthenticated();
   const matchedRoute = to.matched.find((routeDef) => routeDef.meta.routeRestriction);
   const routeRestriction = matchedRoute ? matchedRoute.meta.routeRestriction as RouteRestriction : undefined;
+
+  console.log({isAuthorized});
 
   if (routeRestriction === RouteRestriction.authorized && !isAuthorized) {
     return next('/');

@@ -15,11 +15,7 @@
       @click="startGame"
       :disabled="!canStartMatch"
     >Start game</button>
-    <button
-      id="endButton"
-      class="circular ui icon button massive negative"
-      @click="endGame"
-    >
+    <button id="endButton" class="circular ui icon button massive negative" @click="endGame">
       <i class="close icon"></i>
     </button>
     <modal
@@ -33,25 +29,24 @@
 
     <div id="firebaseui-auth-container"></div>
 
-<div class="ui container segment">
-  <div class="ui cards">
-    <div class="ui fluid card" v-for="match in matches" :key="match.id">
-      <div class="meta">
-        {{ match.startTime }}
-      </div>
-      <div class="extra left aligned content">
-        <img class="ui avatar image" :src="match.red.striker | avatar">
-        <img class="ui avatar image" :src="match.red.defender | avatar">
-        <img class="ui avatar image" :src="match.blue.striker | avatar">
-        <img class="ui avatar image" :src="match.blue.defender | avatar">
-        <div class="ui right floated buttons">
-          <div class="ui basic green button">Join</div>
+    <div class="ui container segment">
+      <div class="ui cards">
+        <div class="ui fluid card" v-for="match in matches" :key="match.id">
+          <div class="content">
+            <div class="description">Started: {{ match.startTime.toDate() | formatDate }}</div>
+            <div class="extra left aligned content">
+              <img class="ui huge avatar image" :src="match.red.striker | avatar" />
+              <img class="ui huge avatar image" :src="match.red.defender | avatar" />
+              <img class="ui huge avatar image" :src="match.blue.striker | avatar" />
+              <img class="ui huge avatar image" :src="match.blue.defender | avatar" />
+              <div class="ui right floated buttons">
+                <div class="ui basic green button" @click="joinGame(match.id)">Join</div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-    </div>
-  </div>
-</div>
-
   </div>
 </template>
 
@@ -66,8 +61,8 @@ import Modal from "../components/Modal.vue";
 import PlayerSelectorVue from "../components/PlayerSelector.vue";
 import matchService from "../services/match.service";
 import firebaseService from "../services/firebase.service";
-import { tap, filter, switchMap } from 'rxjs/operators';
-import firebase from 'firebase';
+import { tap, filter, switchMap } from "rxjs/operators";
+import firebase from "firebase";
 
 export default Vue.extend({
   components: {
@@ -86,16 +81,19 @@ export default Vue.extend({
     };
   },
   mounted() {
-    matchService.getMatches$().pipe(
-      tap(m => this.matches = m)
-    ).subscribe()
+    matchService
+      .getMatches$()
+      .pipe(tap(m => (this.matches = m)))
+      .subscribe();
   },
   computed: {
     canStartMatch(): boolean {
-      return this.$store.state.newTeams.red.strikerId &&
-      this.$store.state.newTeams.red.defenderId && 
-      this.$store.state.newTeams.blue.strikerId && 
-      this.$store.state.newTeams.blue.defenderId
+      return (
+        this.$store.state.newTeams.red.strikerId &&
+        this.$store.state.newTeams.red.defenderId &&
+        this.$store.state.newTeams.blue.strikerId &&
+        this.$store.state.newTeams.blue.defenderId
+      );
     }
   },
   methods: {
@@ -103,7 +101,6 @@ export default Vue.extend({
       (this.$refs.modal as any).toggle();
     },
     async endGaneConfirm() {
-      console.log("qwert");
       await firebaseService.database.ref("activeMatch").set(null);
       (this.$refs.modal as any).toggle();
     },
@@ -112,15 +109,23 @@ export default Vue.extend({
       const newMatch = matchesRef.doc();
 
       const red = {
-        defender: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.red.defenderId),
-        striker: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.red.strikerId)
-      }
+        defender: this.$store.state.users.find(
+          u => u.uid === this.$store.state.newTeams.red.defenderId
+        ),
+        striker: this.$store.state.users.find(
+          u => u.uid === this.$store.state.newTeams.red.strikerId
+        )
+      };
 
       const blue = {
-        defender: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.blue.defenderId),
-        striker: this.$store.state.users.find(u => u.uid === this.$store.state.newTeams.blue.strikerId)
-      }
-      
+        defender: this.$store.state.users.find(
+          u => u.uid === this.$store.state.newTeams.blue.defenderId
+        ),
+        striker: this.$store.state.users.find(
+          u => u.uid === this.$store.state.newTeams.blue.strikerId
+        )
+      };
+
       const match = {
         startTime: firebase.firestore.FieldValue.serverTimestamp(),
         endTime: null,
@@ -132,7 +137,11 @@ export default Vue.extend({
 
       newMatch.set(match);
 
-      firebaseService.firestore.collection('activeMatch').doc()
+      firebaseService.firestore.collection("activeMatch").doc();
+    },
+    joinGame(matchId: string)
+    {
+      this.$router.push({ path:`/match/${matchId}` });
     }
   }
 });
