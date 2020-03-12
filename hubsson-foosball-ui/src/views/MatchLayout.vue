@@ -1,5 +1,15 @@
 <template>
-  <div>{{ $route.params.matchId }}</div>
+  <div v-if="match">
+    <div>{{ $route.params.matchId }}</div>
+    <div>{{ match.startTime }}</div>
+    <div>{{ match.endTime }}</div>
+    <div>{{ match.isActive }}</div>
+    <div>{{ match.history }}</div>
+    <div v-if="match.red">{{ match.red.striker }}</div>
+    <div v-if="match.blue">{{ match.blue.striker }}</div>
+    <div v-if="match.blue">{{ match.blue.defender }}</div>
+    <div v-if="match.red">{{ match.red.defender }}</div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -12,7 +22,8 @@ import { tap } from 'rxjs/operators';
 export default Vue.extend({
   data() {
     return {
-      msg: ""
+      msg: '',
+      match: {} as Match
     };
   },
   methods: {
@@ -20,8 +31,8 @@ export default Vue.extend({
   },
   mounted() {
     matchService
-      .getMatch$(this.$route.params.matchId)
-      .pipe(tap(m => console.log()))
+      .getMatch$(this.$route.params.matchId).pipe(
+        tap((m: Match | undefined) => this.match = m))
       .subscribe();
   },
 });
