@@ -7,8 +7,16 @@ Install firebase tools:
 Login to firebase:
 `firebase login`
 
+Install prerequisites:
+`npm install -g eslint`
+`npm install -g eslint-plugin-promise`
+` cd .\functions\; npm install; cd ..` (this step is required till `functions` folder and its dependencies are removed)
+
 Deploy app:
 `firebase deploy`
+
+Install ui prequisites:
+` cd .\hubsson-foosball-ui\; npm install; cd ..`
 
 Start the app:
 `npm run serve`
